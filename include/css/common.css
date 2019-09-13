@@ -1,0 +1,69 @@
+/* Common css */
+@import url("https://cdn.jsdelivr.net/gh/moonspam/NanumBarunGothic@1.0/nanumbarungothicsubset.css");
+body {background:#F1F1F1 !important;font-family:'NanumBarunGothic', sans-serif;position:absolute !important}
+body, html {width:100%;height:100%}
+p {word-break:break-all !important}
+
+/*.cards{place-content:center !important}*/
+body > .grid {height:100%}
+.ui.grid{margin-top:-1rem;margin-bottom:-1rem;margin-left:0 !important;margin-right:0 !important}
+
+.container {margin-top:70px}
+
+.image {margin-top:-100px}
+.column {max-width:450px}
+
+.push-bar-button {display:block !important;margin-right:-5px !important}
+.aside-title {padding:20px;background:#F7F7F7;color:#616161;border-bottom:2px solid #CCC}
+.aside-menu {padding:15px 20px;background:#FFF;color:#616161}
+.aside-menu:hover {background:#EDEDED;cursor:pointer}
+
+.center {width:100%;margin: 0 auto;text-align:center}
+
+.footer {padding:20px 10px}
+.footer hr{width:35%;color:#8a8a8a}
+.footer p{color:#7d7d7d;font-size:0.8em}
+
+.disable-ime{-webkit-ime-mode:disabled;-moz-ime-mode:disabled;-ms-ime-mode:disabled;ime-mode:disabled}
+
+.no-margin{margin:0 !important}
+.icon-pad{margin-right:8px !important}
+.pad-1y{padding-top:5px !important;padding-bottom:5px !important}
+.pad-2y{padding-top:10px !important;padding-bottom:10px !important}
+.pad-3y{padding-top:15px !important;padding-bottom:15px !important}
+.pad-4y{padding-top:20px !important;padding-bottom:20px !important}
+.pad-5y{padding-top:25px !important;padding-bottom:25px !important}
+.pad-6y{padding-top:30px !important;padding-bottom:30px !important}
+.pad-7y{padding-top:35px !important;padding-bottom:35px !important}
+.pad-1x{padding-left:5px !important;padding-right:5px !important}
+.pad-2x{padding-left:10px !important;padding-right:10px !important}
+.pad-3x{padding-left:15px !important;padding-right:15px !important}
+.pad-4x{padding-left:20px !important;padding-right:20px !important}
+.pad-5x{padding-left:25px !important;padding-right:25px !important}
+.pad-6x{padding-left:30px !important;padding-right:30px !important}
+.pad-7x{padding-left:35px !important;padding-right:35px !important}
+.mar-1y{margin-top:5px !important;margin-bottom:5px !important}
+.mar-2y{margin-top:10px !important;margin-bottom:10px !important}
+.mar-3y{margin-top:15px !important;margin-bottom:15px !important}
+.mar-4y{margin-top:20px !important;margin-bottom:20px !important}
+.mar-5y{margin-top:25px !important;margin-bottom:25px !important}
+.mar-6y{margin-top:30px !important;margin-bottom:30px !important}
+.mar-7y{margin-top:35px !important;margin-bottom:35px !important}
+.mar-1x{margin-left:5px !important;margin-right:5px !important}
+.mar-2x{margin-left:10px !important;margin-right:10px !important}
+.mar-3x{margin-left:15px !important;margin-right:15px !important}
+.mar-4x{margin-left:20px !important;margin-right:20px !important}
+.mar-5x{margin-left:25px !important;margin-right:25px !important}
+.mar-6x{margin-left:30px !important;margin-right:30px !important}
+.mar-7x{margin-left:35px !important;margin-right:35px !important}
+
+.hidden{display:none !important}
+.no-cursor{cursor:none !important}
+.no-select{-webkit-touch-callout:none;/* iOS Safari */-webkit-user-select:none;/* Safari */-khtml-user-select:none;/* Konqueror HTML */-moz-user-select:none;/* Firefox */-ms-user-select:none;/* Internet Explorer/Edge */user-select:none /* Non-prefixed version, currently supported by Chrome and Opera */}
+
+.bg-light-blue {background-color: #80b6e1 !important}
+.opacity-3 {opacity:0.3 !important}
+.opacity-5 {opacity:0.5 !important}
+.opacity-7 {opacity:0.7 !important}
+
+.b-box-black{margin:15px 0;padding:15px;background:white;border:1px solid #6f6f6f;color:#555}
