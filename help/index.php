@@ -15,9 +15,15 @@
 	</head>
 	<body class="no-select">
 		<section class="ui container">
+            <h2 class="ui header pad-2y">
+                <i class="question circle icon"></i>
+                <div class="content">
+                도움말
+                    <div id="dashboard-counter" class="sub header">여러가지 지침을 확인할 수 있습니다.</div>
+                </div>
+            </h2>
 			<div class="b-box-black">
-				<h1>도움말</h1>
-				<p>여러가지 지침을 확인할 수 있습니다. (준비중)</p>
+				<p>준비중</p>
             </div>
             <div class="b-box-black">
                 <h1>Capstone Project</h1>

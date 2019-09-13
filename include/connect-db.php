@@ -114,6 +114,7 @@
                                                         FROM user_monitor WHERE u_id=? LIMIT 100;");
                 $query->execute([get_user_no()]);
                 $query->setFetchMode(PDO::FETCH_ASSOC);
+                $rowCount = $query->rowCount();
                 
                 $str = "";
 
@@ -154,6 +155,9 @@
                     </div>
                 </div>";
                 }
+
+                $str .= "<div id='list-count' class='hidden'>".number_format($rowCount)."</div>";
+
                 return $str;
             } catch (PDOException $e) {
                 return null;
@@ -254,13 +258,28 @@
             return null;
         }
 
+        function get_monitor_info_by_id($monitor_id) {
+            $this->connect();
+            
+            try {
+                $query = $this->connection->prepare("SELECT * FROM user_monitor WHERE m_id=? LIMIT 1;");
+                $query->execute([$monitor_id]);
+                $query->setFetchMode(PDO::FETCH_ASSOC);
+                
+                return $query->fetch();
+            } catch (PDOException $e) {
+                return null;
+            }
+            return null;
+        }
+
         function get_chart_html($monitor_id, $monitor_type, $first_value, $second_value) {
             return "<div class='chart-area ui centered grid mar-1y' id='chart-$monitor_id'
                         data-monitor-id='$monitor_id' data-monitor-type='$monitor_type' data-first-val='$first_value'
                         data-second-val='$second_value'></div>";
         }
 
-        function get_select_card($type, $table, $authorExists, $avail_type) {
+        function get_select_card($type, $table, $avail_type) {
             $this->connect();
             
             try {
@@ -284,19 +303,55 @@
                             </div>
                             <div class='description'>
                                 <p>".$row['d_desc']."</p>";
-                    if ($authorExists)
+                                
+                    if ($type == "type")
                         $str .= "<p><i class='user icon'></i>".$row['d_author']."</p>";
+
                     $str .= "
                             </div>
                         </div>
                         <div class='ui bottom attached button data-$type-select'
                              data-$type-id='".$row['d_id']."' data-name='".$row['d_name']."',
                              data-icon='".$row['d_icon']."'>
-                            <i class='upload icon'></i>
-                            선택
+                             ";
+                    
+                    if ($type == "type")
+                        $str .= "<pre class='data-type-sample hidden'>".$row['d_sample']."</pre>";
+                    
+                    $str .="<i class='upload icon'></i>선택
                         </div>
                     </div>";
                 }
+                return $str;
+            } catch (PDOException $e) {
+                return null;
+            }
+            return null;
+        }
+
+        function get_log_monitor_by_id($monitor_id) {
+            $this->connect();
+            
+            try {
+                $query = $this->connection->prepare("SELECT * FROM log_monitor WHERE m_id=?
+                                                        ORDER BY l_timestamp DESC LIMIT 100;");
+                $query->execute([$monitor_id]);
+                $query->setFetchMode(PDO::FETCH_ASSOC);
+                
+                $str = "";
+
+                while ($row = $query->fetch()) {
+                    $str .= "<tr>";
+                    $str .= "<td>".$row['l_no']."</td>";
+                    $str .= "<td>".$row['l_cpu_use']."</td><td>".$row['l_cpu_sys']."</td>";
+                    $str .= "<td>".$row['l_mem_use']."</td><td>".($row['l_mem_total'] - $row['l_mem_use'])."</td>";
+                    $str .= "<td>".$row['l_disk_use']."</td><td>".($row['l_disk_total'] - $row['l_disk_use'])."</td>";
+                    $str .= "<td>".$row['l_network_rx_byte']."</td><td>".$row['l_network_tx_byte']."</td>";
+                    $str .= "<td>".$row['l_network_rx_packet']."</td><td>".$row['l_network_tx_packet']."</td>";
+                    $str .= "<td>".$row['l_timestamp']."</td>";
+                    $str .= "</tr>";
+                }
+
                 return $str;
             } catch (PDOException $e) {
                 return null;

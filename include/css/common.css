@@ -11,7 +11,7 @@ body > .grid {height:100%}
 .container {margin-top:70px}
 
 .image {margin-top:-100px}
-.column {max-width:450px}
+.auth {max-width:450px}
 
 .push-bar-button {display:block !important;margin-right:-5px !important}
 .aside-title {padding:20px;background:#F7F7F7;color:#616161;border-bottom:2px solid #CCC}
@@ -66,4 +66,4 @@ body > .grid {height:100%}
 .opacity-5 {opacity:0.5 !important}
 .opacity-7 {opacity:0.7 !important}
 
-.b-box-black{margin:15px 0;padding:15px;background:white;border:1px solid #6f6f6f;color:#555}
+.b-box-black{margin:15px 0;padding:15px;background:white;border:1px solid #949494;color:#555}

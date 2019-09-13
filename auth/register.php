@@ -43,7 +43,7 @@
 	</head>
 	<body>
 		<div class="ui middle aligned center aligned grid">
-  			<div class="column">
+  			<div class="column auth">
     			<h2 class="ui image header">
       				<div class="content">
 						계정 만들기

@@ -18,7 +18,14 @@
 	</head>
 	<body class="no-select">
 		<section class="ui container">
-            <div class="ui ordered steps tablet computer only grid">
+            <h2 class="ui header pad-2y">
+                <i class="server icon"></i>
+                <div class="content">
+                    새로운 데이터
+                    <div class="sub header">분석하고 저장하기 위한 새로운 데이터를 추가합니다.</div>
+                </div>
+            </h2>
+            <div class="ui ordered steps tablet computer only grid mar-4y">
                 <div id="step-1" class="active step">
                     <div class="content">
                         <div class="title">선택하기</div>
@@ -50,12 +57,12 @@
             </div>
             <div id="step-1-panel" class="ui grid cards middle aligned">
                 <?php
-                    print($connection->get_select_card('type', 'data_log_type', true, 'analytics'));
+                    print($connection->get_select_card('type', 'data_log_type', 'analytics'));
                 ?>
             </div>
             <div id="step-2-panel" class="ui grid cards middle aligned hidden">
                 <?php
-                    print($connection->get_select_card('task', 'data_log_task', false, null));
+                    print($connection->get_select_card('task', 'data_log_task', null));
                 ?>
             </div>
             <div id="step-3-panel" class="ui grid cards middle aligned hidden">

@@ -35,6 +35,10 @@
 		return "<link rel='stylesheet' type='text/css' href='".get_site_base_url()."/include/css/tui-chart.min.css'>";
 	}
 
+	function load_style_datatables() {
+		return "<link rel='stylesheet' type='text/css' href='".get_site_base_url()."/include/datatables/datatables.min.css'>";
+	}
+
 	function load_script_semantic() {
 		return "<script src='".get_site_base_url()."/include/semantic/semantic.min.js'></script>";
 	}
@@ -65,6 +69,10 @@
 
 	function load_script_sortable() {
 		return "<script src='".get_site_base_url()."/include/js/Sortable.min.js'></script>";
+	}
+
+	function load_script_datatables() {
+		return "<script src='".get_site_base_url()."/include/datatables/datatables.min.js'></script>";
 	}
 
 	function get_meta_common() {

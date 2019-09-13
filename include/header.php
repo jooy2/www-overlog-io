@@ -44,9 +44,6 @@
                     <?= $auth_admin ?>
 				</div>
 			</div>
-			<a href="<?=SITE_HOME?>/help" class="item popup" data-content="도움말">
-				<i class="question circle outline icon no-margin" id="menu-icon-help"></i>
-			</a>
 		</div>
 		<div data-pushbar-id="push-bar" class="pushbar from_left">
             <div data-pushbar-close class="ui icon button big push-bar-button"><i class="close icon"></i></div>

@@ -44,7 +44,14 @@
 	</head>
 	<body class="no-select">
 		<section class="ui container">
-            <div class="ui ordered steps tablet computer only grid">
+            <h2 class="ui header pad-2y">
+                <i class="tv icon"></i>
+                <div class="content">
+                    새로운 모니터링
+                    <div class="sub header">모니터링 할 새로운 장치를 추가합니다.</div>
+                </div>
+            </h2>
+            <div class="ui ordered steps tablet computer only grid mar-4y">
                 <div id="step-1" class="active step">
                     <div class="content">
                         <div class="title">운영체제 선택</div>
@@ -84,12 +91,12 @@
             </div>
             <div id="step-1-panel" class="ui grid cards middle aligned">
                 <?php
-                    print($connection->get_select_card('operation', 'data_log_os', false, null));
+                    print($connection->get_select_card('operation', 'data_log_os', null));
                 ?>
             </div>
             <div id="step-2-panel" class="ui grid cards middle aligned hidden">
                 <?php
-                    print($connection->get_select_card('type', 'data_log_type', true, 'monitoring'));
+                    print($connection->get_select_card('type', 'data_log_type', 'monitoring'));
                 ?>
             </div>
             <div id="step-3-panel" class="ui grid middle aligned hidden b-box-black">
@@ -136,44 +143,17 @@
                     <div id="uri-clipboard-message" class="ui green message hidden"><i class="copy icon"></i>클립보드에 복사되었습니다.</div>
                 </div>
                 <div class="ui b-box-black">
-                    <h3>확인이 완료되었다면, 저장합니다.</h3>
+                    <h3>확인이 완료되었다면, 생성합니다.</h3>
                     <div id="btn-submit" class="ui button blue">만들기</div>
                     <div id="btn-reset" class="ui button red">초기화</div>
                 </div>
                 <div class="ui b-box-black">
                     <h3>다음과 같이 데이터가 수집되어야 합니다.</h3>
                     <p>(아래는 예시 데이터입니다.)</p>
-                    <pre id="example-data-1 hidden">
-WINDOWS
-MOBILEJ0506-19
-==cpu values==
-us0.6,sy1.1,id98.3
-==cpu top5==
-**7.5,/explorer
-**3,/WindowsFormsApp1
-**3,/WmiPrvSE
-**3,/WmiPrvSE
-**0.8,/dwm
-==mem values==
-total16716800,free11396040,used4660352,buff/cache660408
-==swap values==
-total38690187,free33433623,used.5256564,avail Memnot supported
-==mem top5==
-**5.4,/devenv
-**4.5,/ServiceHub.DataWarehouseHost
-**3.6,/chrome
-**3.3,/chrome
-**3.3,/chrome
-=network traffic=
-RXbyte149552329,RXpacketsnot supported
-TXbyte10220530,TXpacketsnot supported
-==disk total==
-1k-block1252543464,us984098804
-==disk other==
-C:\,1k-block244094972,us73685024
-D:\,1k-block976761852,us894058212
-F:\,1k-block31686640,us16355568
-                    </pre>
+                    <?php
+                    
+                    ?>
+                    <pre id="sample-data-area"></pre>
                 </div>
             </div>
             <div id="step-5-panel" class="ui middle aligned hidden">
@@ -197,6 +177,8 @@ F:\,1k-block31686640,us16355568
         
         // Step 2
         $('.card').on("click", ".data-type-select", function() {
+            $('#sample-data-area').html($(this).find('.data-type-sample').html());
+
             completeStep(2);
             setValueForStep(2, $(this).data('type-id'),
                 $(this).data('name'), $(this).data('icon'));
@@ -221,7 +203,6 @@ F:\,1k-block31686640,us16355568
             completeStep(3);
             setValueForStep(3, 0,
                 $('#dev-name').val(), 'check circle');
-            $('#example-data-' + $('#step-1').find('selected-value').html()).removeClass("hidden");
         });
 
         // Step 3 - form

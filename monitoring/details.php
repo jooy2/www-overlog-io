@@ -13,6 +13,8 @@
     
     use_database();
     $connection = ConnectDB::getInstance();
+
+    $row_info = $connection->get_monitor_info_by_id($monitor_id);
 ?>
 <!DOCTYPE html>
 <html lang="<?= get_locale() ?>">
@@ -20,23 +22,108 @@
 		<meta charset="<?= get_charset(SET_DEFAULT) ?>">
 		<?= load_style_common() ?>
         <?= load_style_tui_chart() ?>
+        <?= load_style_datatables() ?>
 		<?= get_meta_common() ?>
 		<?= highlight_menu('monitoring') ?>
-		<title>정보<?= get_site_title() ?></title>
-		<meta name="description" content="">
+		<title><?=$row_info['m_name']?> 정보<?= get_site_title() ?></title>
+		<meta name="description" content="<?=$row_info['m_desc']?>">
 	</head>
 	<body class="no-select">
 		<section class="ui container">
-            
+            <h2 class="ui header pad-2y">
+                <i class="icon"><img src="<?=get_ico($row_info['m_icon'], 48)?>"></i>
+                <div class="content">
+                    <?=$row_info['m_name']?>
+                    <div class="sub header"><?=$row_info['m_desc']?></div>
+                </div>
+            </h2>
+            <div class="ui placeholder segment">
+                <div class="ui two column stackable center aligned grid">
+                    <div class="ui vertical divider">OR</div>
+                    <div class="middle aligned row">
+                    <div class="column">
+                        <div class="ui icon header">
+                            <i class="linkify icon"></i>
+                            다음 링크를 사용
+                        </div>
+                        <p><?= SITE_HOME . "/api/collect/monitor/" . $row_info['m_token'] ?></p>
+                        <div class="field">
+                            <button class="ui primary button">링크 복사</button>
+                            <button class="ui button">어떻게 보내나요?</button>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <div class="ui icon header">
+                        <i class="cloud upload icon"></i>
+                        수동 업로드
+                        </div>
+                        <div class="ui primary button">
+                        업로드
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+            <div class="b-box-black">
+                <table id="recent-log-table" class="display nowrap ui celled table" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th data-priority="1">No.</th>
+                            <th>CPU USE</th>
+                            <th>CPU SYS</th>
+                            <th>MEM Use</th>
+                            <th>MEM Avail</th>
+                            <th>DISK Use</th>
+                            <th>DISK Avail</th>
+                            <th>RX Byte</th>
+                            <th>TX Byte</th>
+                            <th>RX Packets</th>
+                            <th>TX Packets</th>
+                            <th data-priority="1">Time</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                            print($connection->get_log_monitor_by_id($monitor_id));
+                        ?>
+                    </tbody>
+                </table>
+            </div>
 		</section>
 	</body>
 	<?= load_script_jquery() ?>
     <?= load_script_semantic() ?>
     <?= load_script_tui_chart() ?>
     <?= load_script_app_chart() ?>
+    <?= load_script_datatables() ?>
     <script type="text/javascript">
         $(document).ready(function () {
-            
+            $('#recent-log-table').DataTable({
+                responsive: true,
+                "language": {
+                    "sEmptyTable":     "데이터가 없습니다",
+                    "sInfo":           "_START_ - _END_ / _TOTAL_",
+                    "sInfoEmpty":      "0 - 0 / 0",
+                    "sInfoFiltered":   "(총 _MAX_ 개)",
+                    "sInfoPostFix":    "",
+                    "sInfoThousands":  ",",
+                    "sLengthMenu":     "페이지당 줄수 _MENU_",
+                    "sLoadingRecords": "읽는중...",
+                    "sProcessing":     "처리중...",
+                    "sSearch":         "검색:",
+                    "sZeroRecords":    "검색 결과가 없습니다",
+                    "oPaginate": {
+                        "sFirst":    "처음",
+                        "sLast":     "마지막",
+                        "sNext":     "다음",
+                        "sPrevious": "이전"
+                    },
+                    "oAria": {
+                        "sSortAscending":  ": 오름차순 정렬",
+                        "sSortDescending": ": 내림차순 정렬"
+                    }
+                }
+            }).column('0:visible').order('desc').draw();
         });
     </script>
 </html>

@@ -15,6 +15,13 @@
 	</head>
 	<body class="no-select">
 		<section class="ui container">
+			<h2 class="ui header pad-2y">
+                <i class="server icon"></i>
+                <div class="content">
+                    데이터 대시보드
+                    <div id="dashboard-counter" class="sub header">0개의 데이터 컬렉션이 저장됨</div>
+                </div>
+            </h2>
             <a href="new" class="ui primary button">
                 <i class="icon plus square outline"></i>
                 새로운 로그분석

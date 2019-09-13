@@ -20,6 +20,13 @@
 	</head>
 	<body class="no-select">
 		<section class="ui container">
+            <h2 class="ui header pad-2y">
+                <i class="tv icon"></i>
+                <div class="content">
+                    모니터링 대시보드
+                    <div id="dashboard-counter" class="sub header">0개의 모니터링 장치 생성됨</div>
+                </div>
+            </h2>
             <a href="new" class="ui primary button">
                 <i class="icon plus square outline"></i>
                 새로운 모니터링
@@ -53,6 +60,8 @@
             $(".btn-monitoring-settings").click(function() {
                 location.href = "<?=SITE_HOME?>/monitoring/settings?id=" + $(this).data("monitoring-id");
             });
+
+            $("#dashboard-counter").html("<strong>" + $("#list-count").text() + "</strong> 개의 모니터링 장치 생성됨");
         })
     </script>
 </html>
