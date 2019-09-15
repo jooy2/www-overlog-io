@@ -1,5 +1,6 @@
-<img src="http://52.78.192.102/files/images/logo/overlog-logo-horizontal.png" width="80%" height="80%">
-#OverLog
+<img src="http://52.78.192.102/files/images/logo/overlog-logo-horizontal.png" width="50%" height="50%">
+
+# OverLog
 
 ## 프로젝트 소개
 대림대학교 캡스톤디자인 프로젝트로 진행되었습니다.
