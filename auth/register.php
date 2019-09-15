@@ -43,18 +43,19 @@
 	</head>
 	<body>
 		<div class="ui middle aligned center aligned grid">
-  			<div class="column auth">
-    			<h2 class="ui image header">
-      				<div class="content">
-						계정 만들기
-      				</div>
-    			</h2>
+                <div class="column auth">
+                <div class="ui row">
+                    <a href="<?=get_site_base_url()?>">
+                        <img class="ui big image" src="<?=get_logo("overlog-logo-horizontal")?>">
+                    </a>
+                </div>
                 <?php
 					if (!$register_success && get_method() == "post")
 						echo message_error_display('계정 생성에 문제가 발생함', '올바르지 않은 요청입니다.');
 				?>
                 <form id="form-auth" name="form-auth" action="register" method="post" class="ui large form">
                     <div class="ui stacked secondary segment">
+                        <p class="no-select">새로운 <b>OverLog</b> 계정 생성하기</p>
                         <div class="field">
                             <div class="ui left icon input">
                                 <i class="user icon"></i>
@@ -103,6 +104,7 @@
 	<script type="text/javascript">
         var disabledSubmit = false;
         $('#user-id').change(function () {
+            $('#user-id').val(filterAlphabetNumber($('#user-id').val()));
 			$.ajax({
 				url:'/api/check/user-id',
 				type:'get',

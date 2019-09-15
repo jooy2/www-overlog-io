@@ -60,17 +60,23 @@
 	<body>
 		<div class="ui middle aligned center aligned grid">
   			<div class="column auth">
-    			<h2 class="ui image header">
-      				<div class="content">
-						로그인
-      				</div>
-    			</h2>
+                <div class="ui row">
+                    <a href="<?=get_site_base_url()?>">
+                        <img class="ui big image" src="<?=get_logo("overlog-logo-horizontal")?>">
+                    </a>
+                </div>
 				<?php
 					if (!$auth_success && get_method() == "post")
 						echo message_error_display('인증에 문제가 발생함', '입력한 계정이 존재하지 않거나, 비밀번호가 잘못되었습니다.');
 				?>
 				<form name="form-auth" id="form-auth" action="login?req=<?=$req?>&redirect=<?=$redirect_href?>" method="post" class="ui large form">
+                    <div id="form-auth-message" class="ui error message">
+                        <i class="close icon"></i>
+                        <div class="header">잘못된 형식 또는 비어있음</div>
+                        아이디 또는 비밀번호를 올바르게 입력해주세요.
+                    </div>
 					<div class="ui stacked secondary segment">
+                        <p class="no-select"><b>OverLog</b> 계정으로 로그인</p>
 						<div class="field">
 							<div class="ui left icon input">
 								<i class="user icon"></i>
@@ -85,7 +91,6 @@
 						</div>
 						<div id="btn-auth" class="ui fluid large teal submit button">로그인</div>
 					</div>
-					<div class="ui error message"></div>
 				</form>
 				<div class="ui message">
 					새로운 사용자이신가요? <a href="register">계정 만들기</a>
@@ -113,11 +118,15 @@
 		});
 
 		$('#btn-auth').click(function() {
+            $("#form-auth-message").removeClass("transition hidden");
+
 			if (formLengthCheck('#user-id', 4))
-				return alertEmptyFormValue('#user-id', '아이디를 입력하지 않았거나 너무 짧습니다! (4-20자)');
+                return $("#form-auth").addClass("error");
+				//return alertEmptyFormValue('#user-id', '아이디를 입력하지 않았거나 너무 짧습니다! (4-20자)');
 
 			if (formLengthCheck('#user-password', 4))
-				return alertEmptyFormValue('#user-password', '비밀번호를 입력하지 않았거나 너무 짧습니다! (6-20자)');
+                return $("#form-auth").addClass("error");
+				//return alertEmptyFormValue('#user-password', '비밀번호를 입력하지 않았거나 너무 짧습니다! (6-20자)');
 
 			$('#form-auth').submit();
 		});

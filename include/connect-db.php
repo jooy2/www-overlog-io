@@ -359,6 +359,20 @@
             return null;
         }
 
+        function get_last_log_no_by_monitor_id($monitor_id) {
+            try {
+                $query = $this->connection->prepare("SELECT l_no FROM log_monitor
+                    WHERE m_id=? ORDER BY l_no DESC LIMIT 1;");
+                $query->execute([$monitor_id]);
+                $query->setFetchMode(PDO::FETCH_ASSOC);
+                $row = $query->fetch();
+                return $row['l_no'];
+            } catch (PDOException $e) {
+                return -1;
+            }
+            return -1;
+        }
+
         function send_log_monitor($data_id, $data) {
             $this->connect();
 
@@ -366,13 +380,14 @@
                 return false;
             
             try {
+                $current_no = ($this->get_last_log_no_by_monitor_id($data_id)) + 1;
                 $query = $this->connection->prepare("INSERT INTO log_monitor(
-                    m_id, l_os_name, l_host_name,
+                    m_id, l_no, l_os_name, l_host_name,
                     l_cpu_use, l_cpu_sys, l_cpu_top, l_mem_use, l_mem_total, l_mem_top,
                     l_network_rx_byte, l_network_tx_byte, l_network_rx_packet, l_network_tx_packet,
                     l_disk_use, l_disk_total, l_note) 
-                    VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);");
-                $query->execute([$data_id, $data[1], $data[2],
+                    VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);");
+                $query->execute([$data_id, $current_no, $data[1], $data[2],
                                 $data[3], $data[4], $data[5], $data[6], $data[7], $data[8],
                                 $data[9], $data[10], $data[11], $data[12],
                                 $data[13], $data[14], $data[15]]);

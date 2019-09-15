@@ -1,8 +1,6 @@
-<img src="http://52.78.192.102/files/images/logo/overlog-logo-horizontal.png" width="50%" height="50%">
+<img src="http://52.78.192.102/files/images/logo/overlog-logo-horizontal.png" width="35%" height="35%">
 
 # OverLog
-
-## 프로젝트 소개
 대림대학교 캡스톤디자인 프로젝트로 진행되었습니다.
 
 다양한 운영체제에서 수집된 하드웨어 및 네트워크 정보를 수집하여 모니터링할 수 있는 웹 사이트입니다.

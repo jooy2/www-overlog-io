@@ -44,7 +44,7 @@
                     <div class="column">
                         <div class="ui icon header">
                             <i class="linkify icon"></i>
-                            다음 링크를 사용
+                            아래 URI로 로그 전송
                         </div>
                         <p><?= SITE_HOME . "/api/collect/monitor/" . $row_info['m_token'] ?></p>
                         <div class="field">
@@ -55,7 +55,7 @@
                     <div class="column">
                         <div class="ui icon header">
                         <i class="cloud upload icon"></i>
-                        수동 업로드
+                        수동 업로드로 로그 전송
                         </div>
                         <div class="ui primary button">
                         업로드
