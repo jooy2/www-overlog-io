@@ -112,6 +112,10 @@
         return "<meta http-equiv='X-UA-Compatible' content='IE=edge'>";
     }
 
+	function get_logo($src) {
+		return SITE_IMG . "/logo/$src.png";
+	}
+
 	function get_ico($src, $size) {
 		return SITE_IMG . "/icons/$size/$src.png";
 	}
