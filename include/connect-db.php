@@ -26,7 +26,7 @@
                 $this->connection = new PDO("mysql:host=$dbhost;dbname=$dbname;charset=utf8", $dbus, $dbpw);
             } catch (PDOException $e) {
                 echo "<div style='padding:15px;margin:20px;background:white;border:1px solid #6f6f6f;color:#555'>
-                        <h3>연결 문제 발생</h3><p>데이터베이스에 접속하지 못하였습니다.</p><p>Message: ". $e ."</p></div>";
+                        <h3>연결 문제 발생</h3><p>데이터베이스에 접속하지 못하였습니다.</p></div>";
             }
         }
 
@@ -350,6 +350,37 @@
                     $str .= "<td>".$row['l_network_rx_packet']."</td><td>".$row['l_network_tx_packet']."</td>";
                     $str .= "<td>".$row['l_timestamp']."</td>";
                     $str .= "</tr>";
+                }
+
+                return $str;
+            } catch (PDOException $e) {
+                return null;
+            }
+            return null;
+        }
+
+        function get_log_monitor_by_id_json($monitor_id) {
+            $this->connect();
+            
+            try {
+                $query = $this->connection->prepare("SELECT * FROM log_monitor WHERE m_id=?
+                                                        ORDER BY l_timestamp DESC LIMIT 100;");
+                $query->execute([$monitor_id]);
+                $query->setFetchMode(PDO::FETCH_ASSOC);
+                
+                $str = array();
+                $strTemp = array();
+
+                while ($row = $query->fetch()) {
+                    $strTemp = array("number"=>$row['l_no'], "os"=>$row['l_os_name'], "hostname"=>$row['l_host_name'],
+                                    "cpu-use"=>$row['l_cpu_use'], "cpu-sys"=>$row['l_cpu_sys'],
+                                    "disk-use"=>$row['l_disk_use'], "disk-total"=>$row['l_disk_total'],
+                                    "mem-use"=>$row['l_mem_use'], "mem-total"=>$row['l_mem_total'],
+                                    "cpu-top"=>$row['l_cpu_top'], "mem-top"=>$row['l_mem_top'],
+                                    "network-rx-byte"=>$row['l_network_rx_byte'], "network-tx-byte"=>$row['l_network_tx_byte'],
+                                    "network-rx-packet"=>$row['l_network_rx_packet'], "network-tx-packet"=>$row['l_network_tx_packet'],
+                                    "timestamp"=>$row['l_timestamp']);
+                    array_push($str, $strTemp);
                 }
 
                 return $str;
