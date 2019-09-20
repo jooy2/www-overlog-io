@@ -11,12 +11,17 @@
     $token = $_GET['token'];
 
     if (strlen($type) == 0 || strlen($token) == 0) {
-        echo "수집 형식 또는 토큰 값이 일치하지 않습니다!";
+        echo "fail: unexpected parameter";
         return false;
     }
     
-    if (strlen($post_data) == 0 || get_method() != "post") {
-        echo "POST 요청으로 보내주세요. 또한 BODY 값이 비어있으면 안됩니다.";
+    if (get_method() != "post") {
+        echo "fail: unexpected request method";
+        return false;
+    }
+
+    if (strlen($post_data) == 0) {
+        echo "fail: empty body data";
         return false;
     }
 
@@ -26,26 +31,25 @@
     $data_type = $tempArr[1];
 
     if ($data_type == null) {
-        echo "수집 형식 또는 토큰 값이 일치하지 않습니다!";
+        echo "fail: token does not exists";
         return false;
     }
 
     switch ($data_type) {
         case 0:
-            echo "데이터 타입이 지정되지 않음!";
+            echo "fail: wrong data type";
             break;
         case 1:
             $array_data = $interpret_data->kky_to_array($post_data);
             break;
         default:
-            echo "잘못된 데이터 타입입니다!";
+            echo "fail: wrong data type";
             return false;
     }
 
-    // TODO 데이터 보내기
     if ($connection->send_log_monitor($data_id, $array_data)) {
-        echo "수집 성공";
+        echo "success";
     } else {
-        echo "수집 실패. 데이터에 문제가 있습니다.";
+        echo "fail: unrecognized data";
     }
 ?>

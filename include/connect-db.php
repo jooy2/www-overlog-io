@@ -359,12 +359,17 @@
             return null;
         }
 
-        function get_log_monitor_by_id_json($monitor_id) {
+        function get_all_log_monitor_json($monitor_id) {
             $this->connect();
             
             try {
-                $query = $this->connection->prepare("SELECT * FROM log_monitor WHERE m_id=?
+                if ($monitor_id == -1) {
+                    $query = $this->connection->prepare("SELECT * FROM log_monitor
                                                         ORDER BY l_timestamp DESC LIMIT 100;");
+                } else {
+                    $query = $this->connection->prepare("SELECT * FROM log_monitor WHERE m_id=?
+                                                        ORDER BY l_timestamp DESC LIMIT 100;");
+                }
                 $query->execute([$monitor_id]);
                 $query->setFetchMode(PDO::FETCH_ASSOC);
                 
@@ -372,7 +377,7 @@
                 $strTemp = array();
 
                 while ($row = $query->fetch()) {
-                    $strTemp = array("number"=>$row['l_no'], "os"=>$row['l_os_name'], "hostname"=>$row['l_host_name'],
+                    $strTemp = array("id"=>$row['l_id'], "number"=>$row['l_no'], "os"=>$row['l_os_name'], "hostname"=>$row['l_host_name'],
                                     "cpu-use"=>$row['l_cpu_use'], "cpu-sys"=>$row['l_cpu_sys'],
                                     "disk-use"=>$row['l_disk_use'], "disk-total"=>$row['l_disk_total'],
                                     "mem-use"=>$row['l_mem_use'], "mem-total"=>$row['l_mem_total'],

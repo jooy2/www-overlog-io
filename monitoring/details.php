@@ -9,7 +9,7 @@
     
     $monitor_id = $_GET['id'];
 
-    authentication_check(SITE_HOME . "/monitoring/detail?id=" . $monitor_id);
+    authentication_check(SITE_HOME . "/monitoring/details?id=" . $monitor_id);
     
     use_database();
     $connection = ConnectDB::getInstance();
@@ -37,33 +37,6 @@
                     <div class="sub header"><?=$row_info['m_desc']?></div>
                 </div>
             </h2>
-            <div class="ui placeholder segment">
-                <div class="ui two column stackable center aligned grid">
-                    <div class="ui vertical divider">OR</div>
-                    <div class="middle aligned row">
-                    <div class="column">
-                        <div class="ui icon header">
-                            <i class="linkify icon"></i>
-                            아래 URI로 로그 전송
-                        </div>
-                        <p><?= SITE_HOME . "/api/collect/monitor/" . $row_info['m_token'] ?></p>
-                        <div class="field">
-                            <button class="ui primary button">링크 복사</button>
-                            <button class="ui button">어떻게 보내나요?</button>
-                        </div>
-                    </div>
-                    <div class="column">
-                        <div class="ui icon header">
-                        <i class="cloud upload icon"></i>
-                        수동 업로드로 로그 전송
-                        </div>
-                        <div class="ui primary button">
-                        업로드
-                        </div>
-                    </div>
-                    </div>
-                </div>
-            </div>
             <div class="b-box-black">
                 <table id="recent-log-table" class="display nowrap ui celled table" style="width:100%">
                     <thead>
@@ -88,6 +61,41 @@
                         ?>
                     </tbody>
                 </table>
+            </div>
+            <div class="b-box-black">
+                <h2><i class="database icon"></i>수동으로 로그 수집</h2>
+                <div id="uri-clipboard-message" class="ui green message hidden">
+                    <i class="copy icon"></i>
+                    클립보드에 복사되었습니다.
+                </div>
+                <div class="ui placeholder segment">
+                    <div class="ui two column stackable center aligned grid">
+                        <div class="ui vertical divider">OR</div>
+                        <div class="middle aligned row">
+                        <div class="column">
+                            <div class="ui icon header">
+                                <i class="linkify icon"></i>
+                                아래 URI로 로그 전송
+                            </div>
+                            <p id="uri-area" class="pad-5x"><?= SITE_HOME . "/api/collect/monitor/" . $row_info['m_token'] ?></p>
+                            <div class="field">
+                                <input id="clipboard-area" type="text" value="" style="position:absolute;top:-9999em">
+                                <button id="btn-copy-to-clipboard" class="ui primary button">링크 복사</button>
+                                <button class="ui button">어떻게 보내나요?</button>
+                            </div>
+                        </div>
+                        <div class="column">
+                            <div class="ui icon header">
+                            <i class="cloud upload icon"></i>
+                            로그파일 업로드
+                            </div>
+                            <div class="ui primary button">
+                            업로드
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 		</section>
 	</body>
@@ -124,6 +132,13 @@
                     }
                 }
             }).column('0:visible').order('desc').draw();
+        });
+
+        $("#btn-copy-to-clipboard").click(function() {
+            $("#clipboard-area").val($("#uri-area").text());
+            $("#clipboard-area").select();
+            document.execCommand("Copy");
+            $("#uri-clipboard-message").removeClass("hidden");
         });
     </script>
 </html>
