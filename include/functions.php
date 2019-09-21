@@ -120,6 +120,53 @@
 		return SITE_IMG . "/icons/$size/$src.png";
 	}
 
+	function get_profile($src) {
+		return SITE_IMG . "/users/$src.png";
+	}
+
+	function get_process($name) {
+		$name = strtolower($name);
+		$url = SITE_IMG . "/process/$name.png";
+
+		if (url_exists($url))
+			return $url;
+		else
+			return SITE_IMG . "/process/default.png";
+	}
+
+	function url_exists($url) {
+
+        $handle = curl_init($url);
+        curl_setopt($handle,  CURLOPT_RETURNTRANSFER, TRUE);
+
+        $response = curl_exec($handle);
+        $httpCode = curl_getinfo($handle, CURLINFO_HTTP_CODE);
+
+        if ($httpCode >= 200 && $httpCode < 400) {
+            return true;
+        } else {
+            return false;
+        }
+
+        curl_close($handle);
+	}
+	
+	function ping_check($domain) {
+	   $starttime = microtime(true);
+	   $file = fsockopen($domain, 80, $errno, $errstr, 10);
+	   $stoptime = microtime(true);
+	   $status = 0;
+
+	   if (!$file) {
+		   $status = -1;
+	   } else {
+		   fclose($file);
+		   $status = ($stoptime - $starttime) * 1000;
+		   $status = floor($status);
+	   }
+	   return $status . ' ms';
+	}   
+
 	function get_page($url) {
 		try {
 			require_once($_SERVER['DOCUMENT_ROOT'] . $url . '.php');

@@ -34,6 +34,9 @@
             $connection = null;
         }
 
+        /** =====================================================================
+         * User authentications
+         * ====================================================================== */
         function auth_check($account, $password) {
             $this->connect();
             $password = hash("sha256", $password);
@@ -105,13 +108,17 @@
             return false;
         }
 
+        /** =====================================================================
+         * Dashboard
+         * ====================================================================== */
+
         function get_dashboard_data() {
             $this->connect();
             
             try {
                 $query = $this->connection->prepare("SELECT m_id, m_is_active, m_name, m_desc, m_os_type,
                                                             m_dashboard_type, m_icon, m_host_ip, m_host_domain
-                                                        FROM user_monitor WHERE u_id=? LIMIT 100;");
+                                                        FROM user_monitor WHERE u_id=? AND m_is_obsolete=0 LIMIT 100;");
                 $query->execute([get_user_no()]);
                 $query->setFetchMode(PDO::FETCH_ASSOC);
                 $rowCount = $query->rowCount();
@@ -131,29 +138,29 @@
                     }
 
                     $str .= "<div class='ui card column'>
-                    <div class='content'>
-                        <img class='right floated mini ui' src='".get_ico($row['m_icon'], 48)."'>
-                        <div class='header'>
-                            <i class='circle $stat_color icon popup' data-content='$stat_message'></i>
-                            ".$row['m_name']."
+                        <div class='content'>
+                            <img class='right floated mini ui' src='".get_ico($row['m_icon'], 48)."'>
+                            <div class='header'>
+                                <i class='circle $stat_color icon popup' data-content='$stat_message'></i>
+                                ".$row['m_name']."
+                            </div>
+                            <div class='meta'>
+                            ".$row['m_host_domain']." (".$row['m_host_ip'].")
+                            </div>
+                            <div class='description'>
+                                <p>".$row['m_desc']."</p>
+                                <p><i class='laptop icon icon-pad popup' data-content='운영체제'></i>".$this->get_operation_type_name($row['m_os_type'])."</p>
+                            </div>
                         </div>
-                        <div class='meta'>
-                        ".$row['m_host_domain']." (".$row['m_host_ip'].")
+                        <div class='extra content'>
+                            <p><i class='eye icon icon-pad'></i>".$this->get_monitor_type_desc($row['m_dashboard_type'])."</p>
+                            ".$this->get_monitor_chart($row['m_dashboard_type'], $row['m_id'])."
+                            <div class='ui two buttons'>
+                                <div data-monitoring-id='".$row['m_id']."' class='ui blue button btn-monitoring-details'>자세히</div>
+                                <div data-monitoring-id='".$row['m_id']."' class='ui button btn-monitoring-settings'>설정</div>
+                            </div>
                         </div>
-                        <div class='description'>
-                            <p>".$row['m_desc']."</p>
-                            <p><i class='laptop icon icon-pad popup' data-content='운영체제'></i>".$this->get_operation_type_name($row['m_os_type'])."</p>
-                        </div>
-                    </div>
-                    <div class='extra content'>
-                        <p><i class='eye icon icon-pad'></i>".$this->get_monitor_type_name($row['m_dashboard_type'])."</p>
-                        ".$this->get_monitor_chart($row['m_dashboard_type'], $row['m_id'])."
-                        <div class='ui two buttons'>
-                            <div data-monitoring-id='".$row['m_id']."' class='ui blue button btn-monitoring-details'>자세히</div>
-                            <div data-monitoring-id='".$row['m_id']."' class='ui button btn-monitoring-settings'>설정</div>
-                        </div>
-                    </div>
-                </div>";
+                    </div>";
                 }
 
                 $str .= "<div id='list-count' class='hidden'>".number_format($rowCount)."</div>";
@@ -174,6 +181,23 @@
                                                                 m_host_ip, m_os_type, m_data_type, m_icon, m_token, m_reg_date)
                                                             VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?);");
                 $query->execute([$user_no, $name, $desc, $hostname, $ip, $os, $type, $icon, $token, get_datetime()]);
+                return true;
+            } catch (PDOException $e) {
+                return false;
+            }
+            return false;
+        }
+
+        /** =====================================================================
+         * Device configurations
+         * ====================================================================== */
+        function del_monitor_by_id($monitor_id) {
+            $this->connect();
+            
+            try {
+                $query = $this->connection->prepare("UPDATE user_monitor SET m_is_obsolete=1 WHERE m_id=?;");
+                $query->execute([$monitor_id]);
+                
                 return true;
             } catch (PDOException $e) {
                 return false;
@@ -204,9 +228,24 @@
         function get_monitor_type_name($type) {
             switch($type) {
                 case 0:
+                    return "disk";
+                case 1:
+                    return "cpu";
+                case 2:
+                    return "mem";
+                default:
+                    return "disk";
+            }
+        }
+
+        function get_monitor_type_desc($type) {
+            switch($type) {
+                case 0:
                     return "디스크 사용";
                 case 1:
                     return "CPU 사용";
+                case 2:
+                    return "메모리 사용";
                 default:
                     return "디스크 사용";
             }
@@ -228,6 +267,8 @@
                         return $this->get_chart_html($monitor_id, "disk", $row['l_disk_use'], $row['l_disk_total']);
                     case 1:
                         return $this->get_chart_html($monitor_id, "cpu", $row['l_cpu_use'], $row['l_cpu_sys']);
+                    case 2:
+                        return $this->get_chart_html($monitor_id, "mem", $row['l_mem_use'], $row['l_mem_total']);
                     default:
                         return "";
                 }
@@ -359,6 +400,9 @@
             return null;
         }
 
+        /** =====================================================================
+         * Get logs
+         * ===================================================================== */
         function get_all_log_monitor_json($monitor_id) {
             $this->connect();
             
@@ -395,6 +439,20 @@
             return null;
         }
 
+        function get_last_log_by_monitor_id($monitor_id) {
+            try {
+                $query = $this->connection->prepare("SELECT * FROM log_monitor
+                    WHERE m_id=? ORDER BY l_no DESC LIMIT 1;");
+                $query->execute([$monitor_id]);
+                $query->setFetchMode(PDO::FETCH_ASSOC);
+
+                return $query->fetch();
+            } catch (PDOException $e) {
+                return -1;
+            }
+            return -1;
+        }
+
         function get_last_log_no_by_monitor_id($monitor_id) {
             try {
                 $query = $this->connection->prepare("SELECT l_no FROM log_monitor
@@ -409,6 +467,71 @@
             return -1;
         }
 
+        function get_last_log_graph($monitor_id) {
+            try {
+                $query = $this->connection->prepare("SELECT * FROM log_monitor
+                    WHERE m_id=? ORDER BY l_no DESC LIMIT 1;");
+                $query->execute([$monitor_id]);
+                $query->setFetchMode(PDO::FETCH_ASSOC);
+                
+                $str = "";
+                $row = $query->fetch();
+                $type_name = "";
+
+                $value1Arr = array($row['l_disk_use'], $row['l_cpu_use'], $row['l_mem_use']);
+                $value2Arr = array($row['l_disk_total'], $row['l_cpu_sys'], $row['l_mem_total']);
+
+                for ($i=0; $i<3; $i++) {
+                    $str .= "<div class='ui card column'>
+                    <div class='extra content'>
+                        <p><i class='eye icon icon-pad'></i>".$this->get_monitor_type_desc($i)."</p>
+                        ".$this->get_chart_html($i, $this->get_monitor_type_name($i), $value1Arr[$i], $value2Arr[$i])."
+                    </div>
+                </div>";
+                }
+
+                return $str;
+            } catch (PDOException $e) {
+                return "";
+            }
+            return "";
+        }
+
+        function get_last_top_process($type, $monitor_id) {
+            try {
+                $query = $this->connection->prepare("SELECT l_".$type."_top FROM log_monitor
+                    WHERE m_id=? ORDER BY l_no DESC LIMIT 1;");
+                $query->execute([$monitor_id]);
+                $query->setFetchMode(PDO::FETCH_ASSOC);
+                
+                $result = "<div class='ui ordered horizontal list'>";
+
+                $row = $query->fetch();
+
+                $top_str = explode(";;", $row['l_'.$type.'_top']);
+
+                foreach ($top_str as $str) {
+                    $result .= "<div class='item'>
+                                    <img class='ui bordered avatar image' src='".get_process($str)."'>
+                                    <div class='content'>
+                                        <div class='header'>$str</div>
+                                        50 Points
+                                    </div>
+                                </div>";
+                }
+
+                $result .= "</div>";
+
+                return $result;
+            } catch (PDOException $e) {
+                return "";
+            }
+            return "";
+        }
+
+        /** =====================================================================
+         * Set logs
+         * ===================================================================== */
         function send_log_monitor($data_id, $data) {
             $this->connect();
 

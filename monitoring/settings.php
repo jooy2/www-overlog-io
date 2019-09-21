@@ -38,7 +38,7 @@
             <div class="ui segment">
                 <h3>장치 정보</h3>
                 <div class="">
-                    <form class="ui container no-margin pad-2y" id="data-form" method="post" action="new">
+                    <form class="ui container no-margin pad-2y" id="data-form" method="post" action="action">
                         <div class="ui fluid labeled input">
                             <div class="ui label">
                                 장치 이름
@@ -74,7 +74,24 @@
             <div class="ui segment">
                 <h3>삭제</h3>
                 <p>이 모니터링 장치를 삭제합니다.</p>
-                <div class="ui red button">삭제하기</div>
+                <div id="btn-delete" class="ui red button">삭제하기</div>
+            </div>
+            <div class="ui tiny modal" id="modal-delete">
+                <div class="header">삭제 확인</div>
+                <div class="content">
+                    <p class="no-select">정말로 이 장치를 삭제하시겠습니까? 아래 입력란에 장치명 <b style="color:blue">'<?=$row_info['m_name']?>'</b>을 그대로 입력한 후, 삭제를 클릭해주세요.</p>
+                    <div id="modal-delete-form" class="ui form">
+                        <div class="inline field">
+                            <label>장치명</label>
+                            <input type="text" id="delete-form-dev-name" placeholder="장치 이름">
+                        </div>
+                    </div>
+                    <h3 id="modal-delete-loading" class="hidden"><i class="notched circle loading icon"></i>잠시만 기다려주세요...</h3>
+                </div>
+                <div id="modal-delete-actions" class="actions">
+                    <div id="btn-really-delete" class="ui approve red button">삭제</div>
+                    <div class="ui cancel button">취소</div>
+                </div>
             </div>
 		</section>
 	</body>
@@ -82,7 +99,29 @@
     <?= load_script_semantic() ?>
     <script type="text/javascript">
         $(document).ready(function () {
-            
+            $("#btn-delete").click(function() {
+                $(".tiny.modal").modal({
+                    onApprove: function() {
+                        var currentVal = $("#delete-form-dev-name").val();
+
+                        if (currentVal.length == 0 || currentVal != "<?=$row_info['m_name']?>") {
+                            $("#delete-form-dev-name").focus();
+                            alert("장치 이름을 올바르게 입력해주세요!");
+                            return false;
+                        }
+
+                        $("#modal-delete-form").addClass("hidden");
+                        $("#modal-delete-actions").addClass("hidden");
+                        $("#modal-delete-loading").removeClass("hidden");
+
+                        setTimeout(function() {
+                            location.href = "action?id=<?=$row_info['m_id']?>&operation=delete";
+                        }, 1500);
+
+                        return false;
+                    }
+                }).modal("show");
+            });
         });
     </script>
 </html>

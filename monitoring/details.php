@@ -15,6 +15,12 @@
     $connection = ConnectDB::getInstance();
 
     $row_info = $connection->get_monitor_info_by_id($monitor_id);
+    $last_log = $connection->get_last_log_by_monitor_id($monitor_id);
+
+    if ($row_info['m_is_obsolete'] == "1" || $row_info['u_id'] != get_user_no()) {
+        go_to_page("/monitoring");
+        return false;
+    }
 ?>
 <!DOCTYPE html>
 <html lang="<?= get_locale() ?>">
@@ -37,6 +43,43 @@
                     <div class="sub header"><?=$row_info['m_desc']?></div>
                 </div>
             </h2>
+            <div class="b-box-black">
+                <div class="ui relaxed divided list">
+                    <div class="item">
+                        <i class="large desktop middle aligned icon"></i>
+                        <div class="content">
+                        <h4 class="header">Operation System</h4>
+                        <div class="description"><?=$last_log['l_os_name']?></div>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <i class="large server middle aligned icon"></i>
+                        <div class="content">
+                        <h4 class="header">Hostname</h4>
+                        <div class="description"><?=$last_log['l_host_name']?></div>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <i class="large clock middle aligned icon"></i>
+                        <div class="content">
+                        <h4 class="header">Last modified</h4>
+                        <div class="description"><?=$last_log['l_timestamp']?></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="b-box-black">
+                <?php
+                    //print(ping_check($row_info['m_host_ip']));
+                ?>
+            </div>
+            <div class="b-box-black">
+                <div class="ui three stackable doubling cards mar-1y" id="sort-grid">
+                    <?php
+                        print($connection->get_last_log_graph($monitor_id));
+                    ?>
+                </div>
+            </div>
             <div class="b-box-black">
                 <table id="recent-log-table" class="display nowrap ui celled table" style="width:100%">
                     <thead>
@@ -63,6 +106,18 @@
                 </table>
             </div>
             <div class="b-box-black">
+                <h2><i class="window maximize outline icon"></i>CPU usage Top 5</h2>
+                <?php
+                    print($connection->get_last_top_process("cpu", $monitor_id));
+                ?>
+            </div>
+            <div class="b-box-black">
+                <h2><i class="microchip icon"></i>Memory usage Top 5</h2>
+                <?php
+                    print($connection->get_last_top_process("mem", $monitor_id));
+                ?>
+            </div>
+            <div class="b-box-black">
                 <h2><i class="database icon"></i>수동으로 로그 수집</h2>
                 <div id="uri-clipboard-message" class="ui green message hidden">
                     <i class="copy icon"></i>
@@ -80,8 +135,10 @@
                             <p id="uri-area" class="pad-5x"><?= SITE_HOME . "/api/collect/monitor/" . $row_info['m_token'] ?></p>
                             <div class="field">
                                 <input id="clipboard-area" type="text" value="" style="position:absolute;top:-9999em">
-                                <button id="btn-copy-to-clipboard" class="ui primary button">링크 복사</button>
-                                <button class="ui button">어떻게 보내나요?</button>
+                                <div class="ui buttons">
+                                    <button id="btn-copy-to-clipboard" class="ui primary button">링크 복사</button>
+                                    <a href="../help/" class="ui button">수집 방법</a>
+                                </div>
                             </div>
                         </div>
                         <div class="column">

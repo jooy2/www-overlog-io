@@ -17,6 +17,7 @@ body > .grid {height:100%}
 .aside-title {padding:20px;background:#F7F7F7;color:#616161;border-bottom:2px solid #CCC}
 .aside-menu {padding:15px 20px;background:#FFF;color:#616161}
 .aside-menu:hover {background:#EDEDED;cursor:pointer}
+.ui.bordered.image img, .ui.bordered.image svg, .ui.bordered.images .image, .ui.bordered.images img, .ui.bordered.images svg, img.ui.bordered.image {border:1px solid #ababab !important}
 
 .center {width:100%;margin: 0 auto;text-align:center}
 
@@ -66,4 +67,4 @@ body > .grid {height:100%}
 .opacity-5 {opacity:0.5 !important}
 .opacity-7 {opacity:0.7 !important}
 
-.b-box-black{margin:15px 0;padding:15px;background:white;border:1px solid #949494;color:#555}
+.b-box-black{margin:15px 0;padding:15px;background:white;border:1px solid #dadada;color:#555}
