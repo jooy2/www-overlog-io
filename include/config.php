@@ -4,7 +4,8 @@
 	require_once("functions.php");
 	
 	// Site common variables
-	define('SITE_HOME', 'https://overlog.io');
+    define('SITE_HOME', 'https://overlog.io');
+    define('SITE_API', 'https://api.overlog.io');
 	define('SITE_IMG', 'https://overlog.io/files/images');
 
     // Upload files

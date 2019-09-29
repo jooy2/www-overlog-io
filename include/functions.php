@@ -18,6 +18,10 @@
 	function get_site_base_url() {
 		return SITE_HOME;
 	}
+
+	function get_api_base_url() {
+		return SITE_API;
+	}
 	
 	function load_style_common() {
 		return "<link rel='stylesheet' type='text/css' href='".get_site_base_url()."/include/css/common.css'>";
@@ -172,7 +176,7 @@
 		   $status = ($stoptime - $starttime) * 1000;
 		   $status = floor($status);
 	   }
-	   return $status . ' ms';
+	   return $status;
 	}   
 
 	function get_page($url) {

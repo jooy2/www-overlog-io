@@ -39,7 +39,6 @@
 
         // 로그 등록 처리
         $post_data = file_get_contents($result['file_path']);
-        error_log(">>>>>>>>>>>>>" . $post_data . "<<<<<<<<<<<<<<<");
 
         switch ($data_type) {
             case 0:

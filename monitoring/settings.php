@@ -15,6 +15,12 @@
     $connection = ConnectDB::getInstance();
 
     $row_info = $connection->get_monitor_info_by_id($monitor_id);
+
+    if ($row_info['m_is_active'] == "1") {
+        $current_check = "checked";
+    } else {
+        $current_check = "";
+    }
 ?>
 <!DOCTYPE html>
 <html lang="<?= get_locale() ?>">
@@ -72,6 +78,15 @@
                 <div class="ui button">수정하기</div>
             </div>
             <div class="ui segment">
+                <h3>서버 상태<i class="icon icon-pad-left question circle outline popup" data-content="서버의 종료 여부를 선택합니다. 종료 상태에서 로그가 수집되지 않습니다. 자동 수집에 실패하면 자동으로 종료됩니다."></i></h3>
+                <div class="inline field">
+                    <div id="server-stat" class="ui toggle checkbox <?=$current_check?>">
+                        <input type="checkbox" tabindex="0" class="hidden" <?=$current_check?>>
+                        <label></label>
+                    </div>
+                </div>
+            </div>
+            <div class="ui segment">
                 <h3>삭제</h3>
                 <p>이 모니터링 장치를 삭제합니다.</p>
                 <div id="btn-delete" class="ui red button">삭제하기</div>
@@ -120,7 +135,30 @@
 
                         return false;
                     }
-                }).modal("show");
+                }).modal("show");    
+            });
+
+            $(".ui.checkbox").checkbox();
+
+            $("#server-stat").change(function() {
+                var checked = 0;
+                
+                if ($("#server-stat").hasClass("checked") == true)
+                    checked = 1;
+                else
+                    checked = 0;
+                
+                $.ajax({
+                    type: 'GET',
+                    url: '../api/conf/server/status',
+                    data : {
+                        "monitor_id": "<?=$row_info['m_id']?>",
+                        "enabled": checked
+                    },
+                    contentType: 'html',
+                    success: function(data) {
+                    }
+                });
             });
         });
     </script>

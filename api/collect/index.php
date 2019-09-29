@@ -27,6 +27,11 @@
 
     $monitor_info = $connection->get_monitor_info_by_token($token);
 
+    if ($monitor_info == "denied") {
+        echo "fail: server is closed";
+        return false;
+    }
+
     if ($monitor_info == null) {
         echo "fail: token does not exists";
         return false;

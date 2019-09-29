@@ -69,10 +69,14 @@
                     </div>
                 </div>
             </div>
-            <div class="b-box-black">
-                <?php
-                    //print(ping_check($row_info['m_host_ip']));
-                ?>
+            <div id="ping-message-box" class="ui icon message">
+                <i id="ping-message-icon" class="notched circle loading icon"></i>
+                <div class="content">
+                    <div id="ping-message-title" class="header">
+                    서버가 응답하는지 확인하는 중입니다...
+                    </div>
+                    <p id="ping-result">잠시 후 결과가 나타납니다.</p>
+                </div>
             </div>
             <div class="b-box-black">
                 <div class="ui three stackable doubling cards mar-1y" id="sort-grid">
@@ -143,7 +147,7 @@
                                 </div>
                             </div>
                             <div class="column">
-                                <form method="multipart/form-data" id="drop-file-form">
+                                <form method="multipart/form-data" id="file-form">
                                     <input name="token" type="hidden" value="<?=$row_info['m_token']?>">
                                     <div class="ui icon header">
                                         <i class="cloud upload icon"></i>
@@ -151,11 +155,9 @@
                                     </div>
                                     <div id="fileDropzone" class="dropzone needsclick dz-clickable">
                                         <div class="dz-message needsclick">
-                                            Drop files here or click to upload.<br>
-                                            <span class="note needsclick">(This is just a demo dropzone. Selected files are <strong>not</strong> actually uploaded.)</span>
+                                            파일을 드래그하거나 여기를 클릭하여 업로드합니다.
                                         </div>
                                     </div>
-                                    <button class="ui blue button" type="submit">업로드</button>
                                 </form>
                             </div>
                         </div>
@@ -198,54 +200,58 @@
                     }
                 }
             }).column('0:visible').order('desc').draw();
+
+            $.ajax({
+                type: 'GET',
+                url: '../api/get/ping',
+                data : {
+                    "host": "<?=$row_info['m_host_ip']?>"
+                },
+                contentType: 'html',
+                success: function(data) {
+                    
+                    $("#ping-message-icon").removeClass("notched circle loading");
+                    
+                    if (data != -1) {
+                        $("#ping-message-icon").addClass("check circle");
+                        $("#ping-message-box").addClass("positive");
+                        $("#ping-message-title").text("서버가 정상적으로 응답하고 있습니다.");
+                        $("#ping-result").text("응답시간: " + data + ".ms");
+                    }
+                    else {
+                        $("#ping-message-icon").addClass("exclamation circle");
+                        $("#ping-message-box").addClass("negative");
+                        $("#ping-message-title").text("서버가 응답하지 않습니다!");
+                        $("#ping-result").text("잠시후 다시 시도하거나 서버를 점검해보세요.");
+                    }
+                }
+            });
         });
 
         Dropzone.options.fileDropzone = {
             url: './file-upload',
-            autoProcessQueue: false,
             uploadMultiple: false,
-            parallelUploads: 1,
-            maxFiles: 1,
             maxFilesize: 10,
             acceptedFiles: 'application/json, text/plain',
-            addRemoveLinks: true,
-            removedfile: function(file) {
-                var srvFile = $(file._removeLink).data("srvFile");
-                $.ajax({
-                    type: 'POST',
-                    async: false,
-                    cache: false,
-                    url: './file-delete',
-                    data: { file: srvFile }
-                });
-                var _ref;
-                (_ref = file.previewElement) != null ? _ref.parentNode.removeChild(file.previewElement) : void 0;
-                setFilesName();
-                return;
-            },
+            addRemoveLinks: false,
             init: function() {
                 var fileDropzone = this;
-                // Uploaded images
-                
-                // First change the button to actually tell Dropzone to process the queue.
-                document.querySelector("button[type=submit]").addEventListener("click", function(e) {
-                    // Make sure that the form isn't actually being sent.
-                    e.preventDefault();
-                    e.stopPropagation();
 
-                    // Form check
-                    if (checkForm()) {
-                        if (fileDropzone.getQueuedFiles().length > 0) {
-                            fileDropzone.processQueue();
-                        } else {
-                            setFilesName();
-                            submitForm();
-                        }
-                    }
-                });
                 // Append all the additional input data of your form here!
                 this.on("sending", function(file, xhr, formData) {
                     formData.append("token", $("input[name=token]").val());
+                });
+
+                // Uploaded images
+                this.on("addedfile", function(file) {
+                    if (checkForm()) {
+                        if (fileDropzone.getQueuedFiles().length > 0)
+                            fileDropzone.processQueue();
+                    }
+                });
+
+                this.on("success", function(file) {
+                
                 });
             }
         };
@@ -254,16 +260,6 @@
             console.log("checkForm");
             return true;
         }
-
-        function setFilesName() {
-            console.log("setFilesName");
-        }
-
-        function submitForm() {
-            console.log("submitForm");
-            $("#drop-file-form").submit();
-        }
-
 
         $("#btn-copy-to-clipboard").click(function() {
             $("#clipboard-area").val($("#uri-area").text());

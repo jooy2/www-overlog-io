@@ -6,6 +6,7 @@ $file = $_POST['file'];
 
 if ($file) {
     $path = FILES_PATH.$file;
+
     if (is_file($path))
         unlink($path);
 }

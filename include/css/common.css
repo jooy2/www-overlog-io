@@ -28,7 +28,8 @@ body > .grid {height:100%}
 .disable-ime{-webkit-ime-mode:disabled;-moz-ime-mode:disabled;-ms-ime-mode:disabled;ime-mode:disabled}
 
 .no-margin{margin:0 !important}
-.icon-pad{margin-right:8px !important}
+.icon-pad-left{margin-left:8px !important}
+.icon-pad-right{margin-right:8px !important}
 .pad-1y{padding-top:5px !important;padding-bottom:5px !important}
 .pad-2y{padding-top:10px !important;padding-bottom:10px !important}
 .pad-3y{padding-top:15px !important;padding-bottom:15px !important}

@@ -149,11 +149,11 @@
                             </div>
                             <div class='description'>
                                 <p>".$row['m_desc']."</p>
-                                <p><i class='laptop icon icon-pad popup' data-content='운영체제'></i>".$this->get_operation_type_name($row['m_os_type'])."</p>
+                                <p><i class='laptop icon icon-pad-right popup' data-content='운영체제'></i>".$this->get_operation_type_name($row['m_os_type'])."</p>
                             </div>
                         </div>
                         <div class='extra content'>
-                            <p><i class='eye icon icon-pad'></i>".$this->get_monitor_type_desc($row['m_dashboard_type'])."</p>
+                            <p><i class='eye icon icon-pad-right'></i>".$this->get_monitor_type_desc($row['m_dashboard_type'])."</p>
                             ".$this->get_monitor_chart($row['m_dashboard_type'], $row['m_id'])."
                             <div class='ui two buttons'>
                                 <div data-monitoring-id='".$row['m_id']."' class='ui blue button btn-monitoring-details'>자세히</div>
@@ -191,6 +191,20 @@
         /** =====================================================================
          * Device configurations
          * ====================================================================== */
+        function set_server_status($monitor_id, $enabled) {
+            $this->connect();
+            
+            try {
+                $query = $this->connection->prepare("UPDATE user_monitor SET m_is_active=? WHERE m_id=?;");
+                $query->execute([$enabled, $monitor_id]);
+                
+                return true;
+            } catch (PDOException $e) {
+                return false;
+            }
+            return false;
+        }
+
         function del_monitor_by_id($monitor_id) {
             $this->connect();
             
@@ -282,14 +296,17 @@
             $this->connect();
             
             try {
-                $query = $this->connection->prepare("SELECT m_id, m_data_type FROM user_monitor WHERE m_token=? LIMIT 1;");
+                $query = $this->connection->prepare("SELECT m_id, m_data_type, m_is_active, m_is_obsolete FROM user_monitor WHERE m_token=? LIMIT 1;");
                 $query->execute([$token]);
                 $query->setFetchMode(PDO::FETCH_ASSOC);
                 
                 $row = $query->fetch();
                 
                 if (isset($row['m_data_type']) && isset($row['m_id'])) {
-                    return $row['m_id'] . "//" . $row['m_data_type'];
+                    if ($row['m_is_active'] == "0" || $row['m_is_obsolete'] == "1")
+                        return "denied";
+                    else
+                        return $row['m_id'] . "//" . $row['m_data_type'];
                 } else {
                     return null;
                 }
@@ -484,7 +501,7 @@
                 for ($i=0; $i<3; $i++) {
                     $str .= "<div class='ui card column'>
                     <div class='extra content'>
-                        <p><i class='eye icon icon-pad'></i>".$this->get_monitor_type_desc($i)."</p>
+                        <p><i class='eye icon icon-pad-right'></i>".$this->get_monitor_type_desc($i)."</p>
                         ".$this->get_chart_html($i, $this->get_monitor_type_name($i), $value1Arr[$i], $value2Arr[$i])."
                     </div>
                 </div>";
