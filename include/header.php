@@ -9,6 +9,7 @@
         if (is_admin()) $auth_admin = "<a href='".SITE_HOME."/admin' class='item'>관리자 메뉴</a>";
         else $auth_admin = "";
 	} else {
+		$auth_admin = "";
 		$auth_menu = "로그인";
 		$auth_href = "login";
 		$auth_user_info = "";
@@ -27,12 +28,13 @@
 			<a class="item popup" data-pushbar-target="push-bar" data-content="더보기">
 				<i class="th icon no-margin"></i>
 			</a>
-			<a href="<?=SITE_HOME?>/monitoring" class="item popup" data-content="모니터링">
+            <a href="<?=SITE_HOME?>/monitoring" class="item popup" data-content="모니터링">
 				<i class="tv icon no-margin" id="menu-icon-monitoring"></i>
 			</a>
+            <!--
 			<a href="<?=SITE_HOME?>/analytics" class="item popup" data-content="로그분석">
 				<i class="server icon no-margin" id="menu-icon-analytics"></i>
-			</a>
+			</a>-->
 			<div class="ui simple dropdown item">
 				<i class="user icon" id="menu-icon-user"></i>
 				<i class="dropdown icon no-margin"></i>
@@ -50,9 +52,9 @@
             <div class="aside-title"><h3><i class="tv icon icon-pad"></i>모니터링</h3></div>
             <div id="aside-link-dashboard-monitor" class="aside-menu">대시보드</div>
             <div id="aside-link-monitoring-new" class="aside-menu"><i class="plus square outline icon icon-pad"></i>새 장치 추가</div>
-            <div class="aside-title"><h3><i class="server icon icon-pad"></i>로그분석</h3></div>
+            <!--<div class="aside-title"><h3><i class="server icon icon-pad"></i>로그분석</h3></div>
             <div id="aside-link-dashboard-analytics" class="aside-menu">대시보드</div>
-            <div id="aside-link-analytics-new" class="aside-menu"><i class="plus square outline icon icon-pad"></i>새 로그 데이터</div>
+            <div id="aside-link-analytics-new" class="aside-menu"><i class="plus square outline icon icon-pad"></i>새 로그 데이터</div>-->
             <div class="aside-title"><h3><i class="user icon icon-pad"></i>계정</h3></div>
             <div id="aside-link-accounts" class="aside-menu">계정 정보</div>
             <?php

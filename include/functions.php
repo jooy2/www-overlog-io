@@ -39,6 +39,10 @@
 		return "<link rel='stylesheet' type='text/css' href='".get_site_base_url()."/include/datatables/datatables.min.css'>";
 	}
 
+	function load_style_dropzone() {
+		return "<link rel='stylesheet' type='text/css' href='".get_site_base_url()."/include/css/dropzone.css'>";
+	}
+
 	function load_script_semantic() {
 		return "<script src='".get_site_base_url()."/include/semantic/semantic.min.js'></script>";
 	}
@@ -71,6 +75,10 @@
 		return "<script src='".get_site_base_url()."/include/js/Sortable.min.js'></script>";
 	}
 
+    function load_script_dropzone() {
+		return "<script src='".get_site_base_url()."/include/js/dropzone.js'></script>";
+    }
+    
 	function load_script_datatables() {
 		return "<script src='".get_site_base_url()."/include/datatables/datatables.min.js'></script>";
 	}
@@ -113,7 +121,7 @@
     }
 
 	function get_logo($src) {
-		return SITE_IMG . "/logo/$src.png";
+		return SITE_IMG . "/logo/overlog-logo-$src.png";
 	}
 
 	function get_ico($src, $size) {

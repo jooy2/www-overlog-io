@@ -29,6 +29,7 @@
 		<?= load_style_common() ?>
         <?= load_style_tui_chart() ?>
         <?= load_style_datatables() ?>
+        <?= load_style_dropzone() ?>
 		<?= get_meta_common() ?>
 		<?= highlight_menu('monitoring') ?>
 		<title><?=$row_info['m_name']?> 정보<?= get_site_title() ?></title>
@@ -127,29 +128,36 @@
                     <div class="ui two column stackable center aligned grid">
                         <div class="ui vertical divider">OR</div>
                         <div class="middle aligned row">
-                        <div class="column">
-                            <div class="ui icon header">
-                                <i class="linkify icon"></i>
-                                아래 URI로 로그 전송
-                            </div>
-                            <p id="uri-area" class="pad-5x"><?= SITE_HOME . "/api/collect/monitor/" . $row_info['m_token'] ?></p>
-                            <div class="field">
-                                <input id="clipboard-area" type="text" value="" style="position:absolute;top:-9999em">
-                                <div class="ui buttons">
-                                    <button id="btn-copy-to-clipboard" class="ui primary button">링크 복사</button>
-                                    <a href="../help/" class="ui button">수집 방법</a>
+                            <div class="column">
+                                <div class="ui icon header">
+                                    <i class="linkify icon"></i>
+                                    아래 URI로 로그 전송
+                                </div>
+                                <p id="uri-area" class="pad-5x"><?= SITE_HOME . "/api/collect/monitor/" . $row_info['m_token'] ?></p>
+                                <div class="field">
+                                    <input id="clipboard-area" type="text" value="" style="position:absolute;top:-9999em">
+                                    <div class="ui buttons">
+                                        <button id="btn-copy-to-clipboard" class="ui primary button">링크 복사</button>
+                                        <a href="../help/" class="ui button">수집 방법</a>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="column">
-                            <div class="ui icon header">
-                            <i class="cloud upload icon"></i>
-                            로그파일 업로드
+                            <div class="column">
+                                <form method="multipart/form-data" id="drop-file-form">
+                                    <input name="token" type="hidden" value="<?=$row_info['m_token']?>">
+                                    <div class="ui icon header">
+                                        <i class="cloud upload icon"></i>
+                                        로그파일 업로드
+                                    </div>
+                                    <div id="fileDropzone" class="dropzone needsclick dz-clickable">
+                                        <div class="dz-message needsclick">
+                                            Drop files here or click to upload.<br>
+                                            <span class="note needsclick">(This is just a demo dropzone. Selected files are <strong>not</strong> actually uploaded.)</span>
+                                        </div>
+                                    </div>
+                                    <button class="ui blue button" type="submit">업로드</button>
+                                </form>
                             </div>
-                            <div class="ui primary button">
-                            업로드
-                            </div>
-                        </div>
                         </div>
                     </div>
                 </div>
@@ -161,6 +169,7 @@
     <?= load_script_tui_chart() ?>
     <?= load_script_app_chart() ?>
     <?= load_script_datatables() ?>
+    <?= load_script_dropzone() ?>
     <script type="text/javascript">
         $(document).ready(function () {
             $('#recent-log-table').DataTable({
@@ -190,6 +199,71 @@
                 }
             }).column('0:visible').order('desc').draw();
         });
+
+        Dropzone.options.fileDropzone = {
+            url: './file-upload',
+            autoProcessQueue: false,
+            uploadMultiple: false,
+            parallelUploads: 1,
+            maxFiles: 1,
+            maxFilesize: 10,
+            acceptedFiles: 'application/json, text/plain',
+            addRemoveLinks: true,
+            removedfile: function(file) {
+                var srvFile = $(file._removeLink).data("srvFile");
+                $.ajax({
+                    type: 'POST',
+                    async: false,
+                    cache: false,
+                    url: './file-delete',
+                    data: { file: srvFile }
+                });
+                var _ref;
+                (_ref = file.previewElement) != null ? _ref.parentNode.removeChild(file.previewElement) : void 0;
+                setFilesName();
+                return;
+            },
+            init: function() {
+                var fileDropzone = this;
+                // Uploaded images
+                
+                // First change the button to actually tell Dropzone to process the queue.
+                document.querySelector("button[type=submit]").addEventListener("click", function(e) {
+                    // Make sure that the form isn't actually being sent.
+                    e.preventDefault();
+                    e.stopPropagation();
+
+                    // Form check
+                    if (checkForm()) {
+                        if (fileDropzone.getQueuedFiles().length > 0) {
+                            fileDropzone.processQueue();
+                        } else {
+                            setFilesName();
+                            submitForm();
+                        }
+                    }
+                });
+                // Append all the additional input data of your form here!
+                this.on("sending", function(file, xhr, formData) {
+                    formData.append("token", $("input[name=token]").val());
+                });
+            }
+        };
+
+        function checkForm() {
+            console.log("checkForm");
+            return true;
+        }
+
+        function setFilesName() {
+            console.log("setFilesName");
+        }
+
+        function submitForm() {
+            console.log("submitForm");
+            $("#drop-file-form").submit();
+        }
+
 
         $("#btn-copy-to-clipboard").click(function() {
             $("#clipboard-area").val($("#uri-area").text());

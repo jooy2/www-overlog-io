@@ -26,7 +26,14 @@
     }
 
     $monitor_info = $connection->get_monitor_info_by_token($token);
+
+    if ($monitor_info == null) {
+        echo "fail: token does not exists";
+        return false;
+    }
+
     $tempArr = explode("//", $monitor_info);
+
     $data_id = $tempArr[0];
     $data_type = $tempArr[1];
 
@@ -46,7 +53,7 @@
             echo "fail: wrong data type";
             return false;
     }
-
+    
     if ($connection->send_log_monitor($data_id, $array_data)) {
         echo "success";
     } else {

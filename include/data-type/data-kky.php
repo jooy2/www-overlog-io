@@ -23,7 +23,7 @@
             $temp = null;
             $temp = [$arr[5], $arr[6], $arr[7], $arr[8], $arr[9]];
             $tempCount = count($temp);
-            $result[5] = combineTopValues($temp, $tempCount);
+            $result[5] = combineTopValues($temp, $tempCount, $arr[0]);
 
             // MEM USE
             $temp = null;
@@ -35,7 +35,7 @@
             $temp = null;
             $temp = [$arr[15], $arr[16], $arr[17], $arr[18], $arr[19]];
             $tempCount = count($temp);
-            $result[8] = combineTopValues($temp, $tempCount);
+            $result[8] = combineTopValues($temp, $tempCount, $arr[0]);
             
             // NETWORK
             $temp = null;
@@ -64,10 +64,14 @@
         }
     }
 
-    function combineTopValues($arr, $count) {
+    function combineTopValues($arr, $count, $os) {
         $str = "";
         for ($i = 0; $i < $count; $i++) {
-            $tempArr = explode(",/", $arr[$i]);
+            $tempArr = explode(",", $arr[$i]);
+            
+            if ($os == "WINDOWS")
+                $tempArr[1] = preg_replace("/^\//", "", $tempArr[1]);
+
             $str .= $tempArr[1];
             if ($i != ($count - 1)) $str .= ";;";
         }
