@@ -39,7 +39,7 @@
 		<?= load_style_common() ?>
 		<?= get_meta_common() ?>
 		<?= highlight_menu('monitoring') ?>
-		<title>모니터링 생성<?= get_site_title() ?></title>
+		<title>새 장치 생성<?= get_site_title() ?></title>
 		<meta name="description" content="">
 	</head>
 	<body class="no-select">
@@ -47,7 +47,7 @@
             <h2 class="ui header pad-2y">
                 <i class="tv icon"></i>
                 <div class="content">
-                    새로운 모니터링
+                    새로운 장치
                     <div class="sub header">모니터링 할 새로운 장치를 추가합니다.</div>
                 </div>
             </h2>

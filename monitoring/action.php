@@ -20,8 +20,10 @@
     $connection = ConnectDB::getInstance();
 
     if ($operation == "modify") {
-
+        // Modify
+        
     } else if ($operation == "delete") {
+        // Delete
         if (!$connection->del_monitor_by_id($monitor_id)) {
             echo "알 수 없는 에러 발생!";
             return false;

@@ -188,6 +188,22 @@
             return false;
         }
 
+        /**
+         * 
+         */
+        function set_user_name($name_b, $name_a) {
+            $this->connect();
+            
+            try {
+                $query = $this->connection->prepare("UPDATE login_users SET u_name=? WHERE u_name=?;");
+                $query->execute([$name_a, $name_b]);
+                
+                return true;
+            } catch (PDOException $e) {
+                return false;
+            }
+            return false;
+        }
         /** =====================================================================
          * Device configurations
          * ====================================================================== */

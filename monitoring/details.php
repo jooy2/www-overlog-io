@@ -251,7 +251,6 @@
                 });
 
                 this.on("success", function(file) {
-                
                 });
             }
         };

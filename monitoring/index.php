@@ -29,7 +29,7 @@
             </h2>
             <a href="new" class="ui primary button">
                 <i class="icon plus square outline"></i>
-                새로운 모니터링
+                새로운 장치
             </a>
             <div class="ui three stackable doubling cards mar-1y" id="sort-grid">
                 <?php

@@ -23,7 +23,7 @@
                 </div>
             </h2>
 			<div class="b-box-black">
-                <img src="<?=get_logo("overlog-logo-horizontal")?>">
+                <img src="<?=get_logo("horizontal")?>">
 				<p>준비중</p>
             </div>
             <div class="b-box-black">

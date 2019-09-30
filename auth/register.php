@@ -46,7 +46,7 @@
                 <div class="column auth">
                 <div class="ui row">
                     <a href="<?=get_site_base_url()?>">
-                        <img class="ui big image" src="<?=get_logo("overlog-logo-horizontal")?>">
+                        <img class="ui big image" src="<?=get_logo("horizontal")?>">
                     </a>
                 </div>
                 <?php

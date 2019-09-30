@@ -28,8 +28,8 @@ body > .grid {height:100%}
 .disable-ime{-webkit-ime-mode:disabled;-moz-ime-mode:disabled;-ms-ime-mode:disabled;ime-mode:disabled}
 
 .no-margin{margin:0 !important}
-.icon-pad-left{margin-left:8px !important}
-.icon-pad-right{margin-right:8px !important}
+.icon-pad-left{margin-left:10px !important}
+.icon-pad-right{margin-right:10px !important}
 .pad-1y{padding-top:5px !important;padding-bottom:5px !important}
 .pad-2y{padding-top:10px !important;padding-bottom:10px !important}
 .pad-3y{padding-top:15px !important;padding-bottom:15px !important}
@@ -61,6 +61,7 @@ body > .grid {height:100%}
 
 .hidden{display:none !important}
 .no-cursor{cursor:none !important}
+.clickable{cursor:pointer !important}
 .no-select{-webkit-touch-callout:none;/* iOS Safari */-webkit-user-select:none;/* Safari */-khtml-user-select:none;/* Konqueror HTML */-moz-user-select:none;/* Firefox */-ms-user-select:none;/* Internet Explorer/Edge */user-select:none /* Non-prefixed version, currently supported by Chrome and Opera */}
 
 .bg-light-blue {background-color: #80b6e1 !important}
