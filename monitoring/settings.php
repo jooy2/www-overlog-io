@@ -101,7 +101,10 @@
                             <input type="text" id="delete-form-dev-name" placeholder="장치 이름">
                         </div>
                     </div>
-                    <h3 id="modal-delete-loading" class="hidden"><i class="notched circle loading icon"></i>잠시만 기다려주세요...</h3>
+                    <h3 id="modal-delete-loading" class="hidden">
+                        <i class="notched circle loading icon"></i>
+                        잠시만 기다려주세요...
+                    </h3>
                 </div>
                 <div id="modal-delete-actions" class="actions">
                     <div id="btn-really-delete" class="ui approve red button">삭제</div>

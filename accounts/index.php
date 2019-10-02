@@ -84,6 +84,10 @@
             location.href = "change-password";
         });
 
+        $("#btn-remove-account").click(function() {
+            
+        });
+
         function setUserName() {
             var current = "<?=$row['u_name']?>";
             var replace = $("#form-name-input input").val();

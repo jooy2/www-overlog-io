@@ -4,32 +4,22 @@
 	$auth_success = false;
 
 	if (get_method() == "post"
-			&& isset($_POST['current-password']) && isset($_POST['replace-password'])) {
+			&& isset($_POST['user-password']) && isset($_POST['change-password'])) {
 		// Connect database
 		use_database();
 		
 		// Authentication request
-		$curr = addslashes($_POST['current-password']);
-		$repl = addslashes($_POST['replace-password']);
+		$curr = addslashes($_POST['user-password']);
+		$repl = addslashes($_POST['change-password']);
 
 		$connection = ConnectDB::getInstance();
-        $auth_success = $connection->auth_check($user_id, $user_pass);
-        $user_data_row = $connection->get_user_data($user_id);
+        $auth_success = $connection->auth_check(get_user_id(), $curr);
 		
 		if ($auth_success) {
-            $_SESSION['token'] = bin2hex(openssl_random_pseudo_bytes(16));
-            $_SESSION['user-no'] = $user_data_row['u_id'];
-			$_SESSION['user-id'] = $user_id;
-            $_SESSION['login-date'] = get_datetime();
-            $_SESSION['is-admin'] = $user_data_row['u_is_admin'];
-            $_SESSION['user-name'] = $user_data_row['u_name'];
-            $_SESSION['user-email'] = $user_data_row['u_email'];
-            $_SESSION['register-date'] = $user_data_row['u_reg_date'];
-            $_SESSION['modify-date'] = $user_data_row['u_mod_date'];
-            if ($redirect_href != null)
-                echo "<script type='text/javascript'>location.replace('$redirect_href');</script>";
-            else
-			    echo "<script type='text/javascript'>location.replace('".SITE_HOME."/monitoring');</script>";
+            if ($connection->reset_password($repl, $_SESSION['user-no']))
+				go_to_page("/accounts?alert=password-success");
+			else
+				go_to_page("/accounts?alert=password-fail");
 		}
 	}
 ?>
@@ -50,7 +40,7 @@
 					if (!$auth_success && get_method() == "post")
 						echo message_error_display('올바르지 않은 비밀번호', '현재 비밀번호가 잘못 입력되었습니다.');
 				?>
-				<form name="form-auth" id="form-auth" action="login?req=<?=$req?>&redirect=<?=$redirect_href?>" method="post" class="ui large form">
+				<form name="form-auth" id="form-auth" action="change-password" method="post" class="ui large form">
                     <div id="form-auth-message" class="ui error message">
                         <i class="close icon"></i>
                         <div class="header">올바르지 않은 비밀번호</div>
@@ -106,9 +96,6 @@
 			
 			if ($('#change-password').val() != $('#change-password-repeat').val())
                 return $("#form-auth").addClass("error");
-            
-                alert("준비중");
-                return false;
 
 			$('#form-auth').submit();
         });

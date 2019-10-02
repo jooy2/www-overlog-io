@@ -111,7 +111,6 @@
         /** =====================================================================
          * Dashboard
          * ====================================================================== */
-
         function get_dashboard_data() {
             $this->connect();
             
@@ -188,15 +187,17 @@
             return false;
         }
 
-        /**
-         * 
-         */
-        function set_user_name($name_b, $name_a) {
+        /** =====================================================================
+         * User configurations
+         * ====================================================================== */
+        function reset_password($rep_password, $user_no) {
             $this->connect();
+
+            $password = hash("sha256", $rep_password);
             
             try {
-                $query = $this->connection->prepare("UPDATE login_users SET u_name=? WHERE u_name=?;");
-                $query->execute([$name_a, $name_b]);
+                $query = $this->connection->prepare("UPDATE login_users SET u_passwd=? WHERE u_id=?;");
+                $query->execute([$password, $user_no]);
                 
                 return true;
             } catch (PDOException $e) {
@@ -204,6 +205,7 @@
             }
             return false;
         }
+
         /** =====================================================================
          * Device configurations
          * ====================================================================== */
