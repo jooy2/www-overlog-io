@@ -1,3 +1,4 @@
 .DS_STORE
 desktop.ini
 .connection_conf.ini
+.vscode/*

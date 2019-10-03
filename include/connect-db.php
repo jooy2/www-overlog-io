@@ -209,6 +209,22 @@
         /** =====================================================================
          * Device configurations
          * ====================================================================== */
+        function create_unknown_device($domain, $ip, $os) {
+            $this->connect();
+			$token = bin2hex(openssl_random_pseudo_bytes(16));
+			
+            try {
+                $query = $this->connection->prepare("INSERT INTO user_monitor(m_host_domain,
+                                                            m_host_ip, m_os_type, m_data_type, m_token, m_reg_date)
+                                                            VALUES(?, ?, ?, ?, ?, ?);");
+                $query->execute([$domain, $ip, $os, '1', $token, get_datetime()]);
+                return $token;
+            } catch (PDOException $e) {
+                return null;
+            }
+            return null;
+        }
+
         function set_server_status($monitor_id, $enabled) {
             $this->connect();
             
@@ -235,6 +251,26 @@
                 return false;
             }
             return false;
+        }
+
+        function get_operation_type_id($name) {
+            $this->connect();
+            
+            try {
+                $query = $this->connection->prepare("SELECT d_id FROM data_log_os WHERE d_name_search=? LIMIT 1;");
+                $query->execute([$name]);
+                $query->setFetchMode(PDO::FETCH_ASSOC);
+                
+                $row = $query->fetch();
+                
+                if (!empty($row['d_id']))
+                    return $row['d_id'];
+                else
+                    return null;
+            } catch (PDOException $e) {
+                return null;
+            }
+            return null;
         }
 
         function get_operation_type_name($type) {
@@ -310,6 +346,28 @@
             return null;
         }
 
+        function get_monitor_info_by_ip($ip) {
+            $this->connect();
+            
+            try {
+                $query = $this->connection->prepare("SELECT m_id, m_is_active, m_is_obsolete FROM user_monitor WHERE m_host_ip=? LIMIT 1;");
+                $query->execute([$ip]);
+                $query->setFetchMode(PDO::FETCH_ASSOC);
+                
+                $row = $query->fetch();
+                
+                if (isset($row['m_id'])) {
+                    if ($row['m_is_active'] == "0" || $row['m_is_obsolete'] == "1")
+                        return -1;
+                    else
+                        return $row['m_id'];
+                }
+            } catch (PDOException $e) {
+                return null;
+            }
+            return null;
+        }
+
         function get_monitor_info_by_token($token) {
             $this->connect();
             
@@ -325,8 +383,6 @@
                         return "denied";
                     else
                         return $row['m_id'] . "//" . $row['m_data_type'];
-                } else {
-                    return null;
                 }
             } catch (PDOException $e) {
                 return null;
@@ -495,7 +551,10 @@
                 $query->execute([$monitor_id]);
                 $query->setFetchMode(PDO::FETCH_ASSOC);
                 $row = $query->fetch();
-                return $row['l_no'];
+				if (empty($row['l_no']))
+					return 0;
+				else
+	                return $row['l_no'];
             } catch (PDOException $e) {
                 return -1;
             }
@@ -582,9 +641,9 @@
                     l_disk_use, l_disk_total, l_note) 
                     VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);");
                 $query->execute([$data_id, $current_no, $data[1], $data[2],
-                                $data[3], $data[4], $data[5], $data[6], $data[7], $data[8],
-                                $data[9], $data[10], $data[11], $data[12],
-                                $data[13], $data[14], $data[15]]);
+                                $data[4], $data[5], $data[6], $data[7], $data[8], $data[9],
+                                $data[10], $data[11], $data[12], $data[13],
+                                $data[14], $data[15], $data[16]]);
                 return true;
             } catch (PDOException $e) {
                 return false;

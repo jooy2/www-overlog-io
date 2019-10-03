@@ -10,10 +10,10 @@
 
             // METADATA
             $result = array(16);
-            $result[0] = ""; // host ip 0
+            $result[0] = $arr[0]; // host ip 0
             $result[1] = $arr[1];
             $result[2] = $arr[2];
-            $result[3] = ""; // timestamp 3
+            $result[3] = $arr[3]; // timestamp 3
 
             // CPU VALUE
             $temp = explode(",", $arr[5]);
