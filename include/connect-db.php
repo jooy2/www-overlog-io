@@ -609,7 +609,6 @@
                                     <img class='ui bordered avatar image' src='".get_process($str)."'>
                                     <div class='content'>
                                         <div class='header'>$str</div>
-                                        50 Points
                                     </div>
                                 </div>";
                 }
