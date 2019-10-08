@@ -44,7 +44,7 @@
             <div class="ui segment">
                 <h3>장치 정보</h3>
                 <div class="">
-                    <form class="ui container no-margin pad-2y" id="data-form" method="post" action="action">
+                    <form class="ui container no-margin pad-2y" id="data-form" method="post" action="action?id=<?=$row_info['m_id']?>&action=modify">
                         <div class="ui fluid labeled input">
                             <div class="ui label">
                                 장치 이름
@@ -75,7 +75,7 @@
                         <input id="step-4-form-token" name="dev-token" type="hidden">
                     </form>
                 </div>
-                <div class="ui button">수정하기</div>
+                <div id="btn-modify" class="ui button">수정하기</div>
             </div>
             <div class="ui segment">
                 <h3>서버 상태<i class="icon icon-pad-left question circle outline popup" data-content="서버의 종료 여부를 선택합니다. 종료 상태에서 로그가 수집되지 않습니다. 자동 수집에 실패하면 자동으로 종료됩니다."></i></h3>
@@ -117,6 +117,9 @@
     <?= load_script_semantic() ?>
     <script type="text/javascript">
         $(document).ready(function () {
+			$("#btn-modify").click(function() {
+				$("#data-form").submit();
+			});
             $("#btn-delete").click(function() {
                 $(".tiny.modal").modal({
                     onApprove: function() {
@@ -133,7 +136,7 @@
                         $("#modal-delete-loading").removeClass("hidden");
 
                         setTimeout(function() {
-                            location.href = "action?id=<?=$row_info['m_id']?>&operation=delete";
+                            location.href = "action?id=<?=$row_info['m_id']?>&action=delete";
                         }, 1500);
 
                         return false;

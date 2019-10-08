@@ -1,0 +1,35 @@
+LINUX
+localhost.localdomain
+==cpu values==
+us5.3,sy0.0,id78.9
+==cpu top5==
+**0.0,/usr/lib/systemd/systemd--switched-root--system--deserialize22
+**0.0,[kthreadd]
+**0.0,[ksoftirqd/0]
+**0.0,[kworker/0:0H]
+**0.0,[migration/0]
+==mem values==
+total3861484,free918496,used876240,buff/cache2066748
+==swap values==
+total0,free0,used.0,avail Mem2328908
+==mem top5==
+**8.3,/usr/bin/X:0-backgroundnone-noreset-audit4-verbose-auth/run/gdm/auth-for-gdm-dkSDgL/database-seatseat0vt1
+**7.6,/usr/bin/gnome-shell
+**2.0,/usr/bin/gnome-software--gapplication-service
+**1.0,/usr/libexec/evolution/evolution-alarm-notify
+**1.0,/usr/libexec/evolution-source-registry
+==network traffic==
+RXbyte294046745,RXpackets253921
+TXbyte6411714,TXpackets90677
+==disk total==
+1k-block26941792,us7095912
+==disk other==
+/dev/mapper/centos-root,1k-block17811456,us6898964
+devtmpfs,1k-block1913628,us0
+tmpfs,1k-block1930740,us0
+tmpfs,1k-block1930740,us12612
+tmpfs,1k-block1930740,us0
+/dev/sda1,1k-block1038336,us184304
+tmpfs,1k-block386152,us32
+total,1k-block26941792,us7095912
+

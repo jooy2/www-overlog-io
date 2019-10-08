@@ -128,6 +128,10 @@
 		return SITE_IMG . "/logo/overlog-logo-$src.png";
 	}
 
+	function get_image($src) {
+		return SITE_IMG . $src . ".png";
+	}
+
 	function get_ico($src, $size) {
 		return SITE_IMG . "/icons/$size/$src.png";
 	}

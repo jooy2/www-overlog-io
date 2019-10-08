@@ -13,13 +13,18 @@ body > .grid {height:100%}
 .image {margin-top:-100px}
 .auth {max-width:450px}
 
+.img {height:auto !important}
+.sm {max-width: 150px !important}
+.md {max-width: 250px !important}
+.lg {max-width: 350px !important}
+
 .push-bar-button {display:block !important;margin-right:-5px !important}
 .aside-title {padding:20px;background:#F7F7F7;color:#616161;border-bottom:2px solid #CCC}
 .aside-menu {padding:15px 20px;background:#FFF;color:#616161}
 .aside-menu:hover {background:#EDEDED;cursor:pointer}
 .ui.bordered.image img, .ui.bordered.image svg, .ui.bordered.images .image, .ui.bordered.images img, .ui.bordered.images svg, img.ui.bordered.image {border:1px solid #ababab !important}
 
-.center {width:100%;margin: 0 auto;text-align:center}
+.center {width:100%;margin: 0 auto !important;text-align:center}
 
 .footer {padding:20px 10px}
 .footer hr{width:35%;color:#8a8a8a}
@@ -58,6 +63,9 @@ body > .grid {height:100%}
 .mar-5x{margin-left:25px !important;margin-right:25px !important}
 .mar-6x{margin-left:30px !important;margin-right:30px !important}
 .mar-7x{margin-left:35px !important;margin-right:35px !important}
+
+.header-lg{font-size:2.9em !important;font-weight:300 !important;margin:30px 0 !important}
+.desc{font-size:1.1em !important;font-weight:200 !important;margin:15px 0 !important}
 
 .hidden{display:none !important}
 .no-cursor{cursor:none !important}

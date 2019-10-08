@@ -225,6 +225,21 @@
             return null;
         }
 
+		function modify_device($id, $name, $desc, $ip, $domain) {
+			$this->connect();
+			
+			try {
+				$query = $this->connection->prepare("UPDATE user_monitor SET m_name=?, m_desc=?,
+																m_host_ip=?, m_host_domain=? 
+													WHERE m_id=?;");
+				$query->execute([$name, $desc, $ip, $domain, $id]);
+				return true;
+			} catch (PDOException $e) {
+				return false;
+			}
+			return false;
+		}
+
         function set_server_status($monitor_id, $enabled) {
             $this->connect();
             

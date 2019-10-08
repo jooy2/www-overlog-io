@@ -64,6 +64,7 @@
                     echo "<div id='aside-link-log-out' class='aside-menu'><i class='sign-out icon icon-pad'></i>로그아웃</div>";
             ?>
             <div class="aside-title"><h3><i class="question circle icon icon-pad"></i>도움말</h3></div>
+            <div id="aside-link-download" class="aside-menu">클라이언트 다운로드</div>
             <div id="aside-link-help" class="aside-menu">사용법</div>
 		</div>
 	</body>
@@ -113,6 +114,10 @@
 
             $("#aside-link-help").click(function() {
                 location.href = "<?=SITE_HOME?>/help";
+            });
+
+            $("#aside-link-download").click(function() {
+                location.href = "<?=SITE_HOME?>/downloads";
             });
 		});
 	</script>
