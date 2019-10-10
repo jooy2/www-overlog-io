@@ -44,14 +44,10 @@
 					<div class="center aligned">
 	                	<img src="<?=get_image("/logo/android-logo")?>" alt="android" class="img sm">
 					</div>
-					<h3>Mobile (Android)</h3>
+					<h3>Android (Viewer)</h3>
 					<span id="btn-android-download" class="ui button blue"><i class="icon download"></i>다운로드 (APK)</span>
 				</div>
             </div>
-            <div class="b-box-black">
-            </div>
-			<div class="b-box-black">
-			</div>
 		</section>
 	</body>
 	<script type="text/javascript">
@@ -62,7 +58,6 @@
 			location.href="<?=SITE_HOME?>/files/client/linux_agent.sh";
 		});
 		$("#btn-android-download").click(function () {
-			alert("준비중");
 			location.href="<?=SITE_HOME?>/files/client/android_agent.apk";
 		});
 	</script>

@@ -515,7 +515,7 @@
             try {
                 if ($monitor_id == -1) {
                     $query = $this->connection->prepare("SELECT * FROM log_monitor
-                                                        ORDER BY l_timestamp DESC LIMIT 100;");
+                                                        ORDER BY l_timestamp DESC LIMIT 10;");
                 } else {
                     $query = $this->connection->prepare("SELECT * FROM log_monitor WHERE m_id=?
                                                         ORDER BY l_timestamp DESC LIMIT 100;");

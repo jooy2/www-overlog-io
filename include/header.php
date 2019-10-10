@@ -6,8 +6,8 @@
 		$auth_href = "logout";
 		$auth_user_info = "<a href='".SITE_HOME."/accounts' class='item'>계정 정보</a>";
 
-        if (is_admin()) $auth_admin = "<a href='".SITE_HOME."/admin' class='item'>관리자 메뉴</a>";
-        else $auth_admin = "";
+        //if (is_admin()) $auth_admin = "<a href='".SITE_HOME."/admin' class='item'>관리자 메뉴</a>";
+         $auth_admin = "";
 	} else {
 		$auth_admin = "";
 		$auth_menu = "로그인";

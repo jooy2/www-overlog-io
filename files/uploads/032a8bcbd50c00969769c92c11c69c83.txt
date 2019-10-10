@@ -1,0 +1,32 @@
+117.17.34.11
+WINDOWS
+MOBILEJ0506-99
+191010201758
+==cpu values==
+us13.8,sy2.4,id82.3
+==cpu top5==
+**0,/dllhost
+**0,/
+**0,/
+**0,/
+**0,/
+==mem values==
+total16716800,free13605350,used2768230,buff/cache343220
+==swap values==
+total22606180,free19208125,used.3398055,avail Memnot supported
+==mem top5==
+**3.9,/Adobe Desktop Service
+**3.4,/POWERPNT
+**2.8,/nosstarter.npe
+**2.3,/ASDSvc
+**2.2,/node
+=network traffic=
+RXbyte3061814079,RXpacketsnot supported
+TXbyte77090682,TXpacketsnot supported
+==disk total==
+1k-block1283819480,us1055833064
+==disk other==
+C:\,1k-block243684348,us135472608
+D:\,1k-block976761852,us874646344
+F:\,1k-block31686640,us29673584
+G:\,1k-block31686640,us16040528

@@ -58,7 +58,7 @@
                     <i class="tags icon"></i>계정 관리
                 </h2>
                 <button id="btn-change-password" class="ui green button">암호 변경</button>
-                <button id="btn-remove-account" class="ui red button">계정 비활성화</button>
+                <!--<button id="btn-remove-account" class="ui red button">계정 비활성화</button>-->
             </div>
 		</section>
 	</body>

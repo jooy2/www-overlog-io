@@ -24,7 +24,7 @@
             </h2>
 			<div class="b-box-black">
                 <img src="<?=get_logo("horizontal")?>">
-				<p>준비중</p>
+				
             </div>
             <div class="b-box-black">
                 <h1>Capstone Project</h1>
