@@ -9,7 +9,7 @@
 	<body>
 		<div class="footer center">
 			<hr/>
-			<p>푸우우우우터어어어어</p>
+			<p>Overlog all right reserved</p>
 		</div>
 	</body>
 </html>

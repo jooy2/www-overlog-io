@@ -3,6 +3,8 @@
 	get_page('/include/header');
 	
 	authentication_check(SITE_HOME . "/monitoring");
+
+	go_to_page("/monitoring");
 ?>
 <!DOCTYPE html>
 <html lang="<?= get_locale() ?>">

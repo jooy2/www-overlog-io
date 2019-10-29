@@ -93,6 +93,9 @@
 					</div>
 				</form>
 				<div class="ui message">
+					테스트 계정은 <b>(id) administrator / (pw) test</b> 입니다.
+				</div>
+				<div class="ui message">
 					새로운 사용자이신가요? <a href="register">계정 만들기</a>
 				</div>
 			</div>
@@ -122,11 +125,9 @@
 
 			if (formLengthCheck('#user-id', 4))
                 return $("#form-auth").addClass("error");
-				//return alertEmptyFormValue('#user-id', '아이디를 입력하지 않았거나 너무 짧습니다! (4-20자)');
 
 			if (formLengthCheck('#user-password', 4))
                 return $("#form-auth").addClass("error");
-				//return alertEmptyFormValue('#user-password', '비밀번호를 입력하지 않았거나 너무 짧습니다! (6-20자)');
 
 			$('#form-auth').submit();
 		});

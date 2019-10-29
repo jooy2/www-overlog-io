@@ -15,6 +15,7 @@
             $result[2] = $arr[2];
             $result[3] = $arr[3]; // timestamp 3
 
+	error_log($result[0] . "-" . $result[3]);
             // CPU VALUE
             $temp = explode(",", $arr[5]);
             $result[4] = substr($temp[0], 2, 5); // 100.0

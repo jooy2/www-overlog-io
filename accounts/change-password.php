@@ -3,6 +3,12 @@
 
 	$auth_success = false;
 
+	if (get_user_id() == "administrator") {
+		echo "<script type='text/javascript'>
+			alert('현재 계정은 암호 변경이 불가능합니다!');
+			location.href = '" . SITE_HOME . "/accounts';
+		</script>";
+	}
 	if (get_method() == "post"
 			&& isset($_POST['user-password']) && isset($_POST['change-password'])) {
 		// Connect database
