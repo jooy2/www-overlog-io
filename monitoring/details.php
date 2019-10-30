@@ -73,7 +73,7 @@
                 <i id="ping-message-icon" class="notched circle loading icon"></i>
                 <div class="content">
                     <div id="ping-message-title" class="header">
-                    서버가 응답하는지 확인하는 중입니다...
+                    서버가 응답하는지 확인하는 중입니다... (80번 포트)
                     </div>
                     <p id="ping-result">잠시 후 결과가 나타납니다.</p>
                 </div>

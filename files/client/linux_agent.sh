@@ -1,11 +1,13 @@
 #!/bin/bash
 
-hostname=52.78.192.102
-tempfilename=logtemp
-savedir=/home/nginx/www/logs
+hostname=temp
+tempfilename=$(date '+%y%m%d%H%M%S').txt
+savedir=/home/nginx/www/uploads
 
-echo "LINUX" > $savedir/$hostname/$tempfilename
+echo $(curl ifconfig.me) > $savedir/$hostname/$tempfilename
+echo "LINUX" >> $savedir/$hostname/$tempfilename
 hostname | cat >> $savedir/$hostname/$tempfilename
+echo $(date '+%y%m%d%H%M%S') >> $savedir/$hostname/$tempfilename
 
 echo "==cpu values==" >> $savedir/$hostname/$tempfilename
 top -b -n 1 | head -n3 | tail -n1 | awk -F' ' '{if($1!~/#/) print $3$2";"$5$4";"$9$8}' | sed 's/,//' | sed 's/,//'| sed 's/,//' | sed 's/;/,/' | sed 's/;/,/' | sed 's/;/,/' | cat >> $savedir/$hostname/$tempfilename
@@ -23,8 +25,8 @@ echo "==mem top5==" >> $savedir/$hostname/$tempfilename
 ps aux --sort=-pmem | sed '1d' | head -n5 | sed 's/  */ /' | awk -F' ' '{if($1!~/#/) print "**"$4","$11$12$13$14$15$16$17$18$19$20$21$22$23$24$25$26$27$28$29$30}' | cat >> $savedir/$hostname/$tempfilename
 
 echo "==network traffic==" >> $savedir/$hostname/$tempfilename
-ip -s link show dev ens33 | tail -n4 | head -n2 |tail -n1 | awk -F' ' '{if($1!~/ens/) print "RXbyte"$1",RXpackets"$2}' | cat >> $savedir/$hostname/$tempfilename
-ip -s link show dev ens33 | tail -n1 | awk -F' ' '{if($1!~/ens/) print "TXbyte"$1",TXpackets"$2}' | cat >> $savedir/$hostname/$tempfilename
+ip -s link show dev ens5 | tail -n4 | head -n2 |tail -n1 | awk -F' ' '{if($1!~/ens/) print "RXbyte"$1",RXpackets"$2}' | cat >> $savedir/$hostname/$tempfilename
+ip -s link show dev ens5 | tail -n1 | awk -F' ' '{if($1!~/ens/) print "TXbyte"$1",TXpackets"$2}' | cat >> $savedir/$hostname/$tempfilename
 
 echo "==disk total==" >> $savedir/$hostname/$tempfilename
 df --total | tail -n1 | awk -F' ' '{if($1!~/#/) print "1k-block"$2",us"$3}' | cat >> $savedir/$hostname/$tempfilename
@@ -32,4 +34,4 @@ df --total | tail -n1 | awk -F' ' '{if($1!~/#/) print "1k-block"$2",us"$3}' | ca
 echo "==disk other==" >> $savedir/$hostname/$tempfilename
 df | awk -F' ' '{if($1!~/#/) print $6",1k-block"$2",us"$3}' | sed '1d' | cat >> $savedir/$hostname/$tempfilename
 
-mv $savedir/$hostname/$tempfilename $savedir/$hostname/$(date +%Y%m%d%H%M%S).txt
+mv $savedir/$hostname/$tempfilename $savedir/logs/$(date +%Y%m%d%H%M%S).txt
