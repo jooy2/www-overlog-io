@@ -35,8 +35,8 @@
     }
 
 /include 디렉토리의 config.php 파일을 열어 다음과 같이 수정해줍니다.
-    - SITE_HOME의 값을 현재 호스트 IP 또는 도메인으로 설정
-    - SITE_IMG의 값을 이미지 호스팅 주소로 설정
+- SITE_HOME의 값을 현재 호스트 IP 또는 도메인으로 설정
+- SITE_IMG의 값을 이미지 호스팅 주소로 설정
 
 데이터베이스 접근을 위해 /include 디렉토리에 .connection_conf.ini 파일을 생성합니다.
 이후 다음과 같은 규칙으로 파일을 수정합니다.

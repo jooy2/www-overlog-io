@@ -221,8 +221,8 @@
                     else {
                         $("#ping-message-icon").addClass("exclamation circle");
                         $("#ping-message-box").addClass("negative");
-                        $("#ping-message-title").text("서버가 응답하지 않습니다!");
-                        $("#ping-result").text("잠시후 다시 시도하거나 서버를 점검해보세요.");
+                        $("#ping-message-title").text("서버 상태를 확인할 수 없음");
+                        $("#ping-result").text("80번 포트 기준 서버 응답이 지연되고 있습니다.");
                     }
                 }
             });

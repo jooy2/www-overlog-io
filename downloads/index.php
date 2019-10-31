@@ -23,7 +23,7 @@
             </h2>
 			<div class="b-box-black center aligned wide ui cards pad-6y">
 				<div class="center aligned pad-6y">
-					<h1 class="header-lg">실행만 하면 즉시 수집</h1>
+					<h1 class="header-lg">실행만 하면 즉시 수집됩니다.</h1>
 					<p class="desc">(* 네트워크 연결이 필요합니다.)</p>
 				</div>
 				<div class="card center aligned pad-6y pad-6x">
@@ -39,6 +39,7 @@
 					</div>
 					<h3>Linux</h3>
 					<span id="btn-linux-download" class="ui button blue"><i class="icon download"></i>다운로드 (.sh)</span>
+					<span id="btn-how-to-install-linux" class="ui button"><i class="icon question"></i>설치 방법</span>
 				</div>
 				<div class="card center aligned pad-6y pad-6x">
 					<div class="center aligned">
@@ -57,6 +58,10 @@
 		$("#btn-linux-download").click(function () {
 			location.href="<?=SITE_HOME?>/files/client/linux_agent.sh";
 		});
+		$("#btn-how-to-install-linux").click(function () {
+			location.href="<?=SITE_HOME?>/help";
+		});
+
 		$("#btn-android-download").click(function () {
 			location.href="<?=SITE_HOME?>/files/client/android_agent.apk";
 		});
