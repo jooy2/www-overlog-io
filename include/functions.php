@@ -169,7 +169,7 @@
 	
 	function ping_check($domain) {
 	   $starttime = microtime(true);
-	   $file = fsockopen($domain, 80, $errno, $errstr, 10);
+	   $file = fsockopen($domain, 80, $errno, $errstr, 2);
 	   $stoptime = microtime(true);
 	   $status = 0;
 

@@ -101,7 +101,7 @@
             </div>
             <div id="step-3-panel" class="ui grid middle aligned hidden b-box-black">
                 <div id="form-error-message" class="ui red message hidden mar-3x mar-3y">
-                    <i class="copy icon"></i>이름, 설명, IP는 비어있으면 안됩니다!
+                    <i class="copy icon"></i>이름(2자 이상), 설명, IP는 짧거나 비어있으면 안됩니다!
                 </div>
                 <form class="ui container no-margin pad-2y" id="data-form" method="post" action="new">
                     <div class="ui fluid labeled input">
@@ -137,7 +137,7 @@
             </div>
             <div id="step-4-panel" class="ui middle aligned hidden">
                 <div class="ui b-box-black">
-                    <h3 id="uri-area"><?= SITE_HOME . "/api/collect/monitor/" . $token ?></h3>
+                    <h3 id="uri-area"><?= "https://api.overlog.io/collect/monitor/" . $token ?></h3>
                     <input id="clipboard-area" type="text" value="" style="position:absolute;top:-9999em">
                     <div id="btn-copy-to-clipboard" class="ui button"><i class="clipboard outline icon"></i>클립보드로 복사</div>
                     <div id="uri-clipboard-message" class="ui green message hidden"><i class="copy icon"></i>클립보드에 복사되었습니다.</div>

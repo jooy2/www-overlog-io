@@ -137,7 +137,7 @@
                                     <i class="linkify icon"></i>
                                     아래 URI로 로그 전송
                                 </div>
-                                <p id="uri-area" class="pad-5x"><?= SITE_HOME . "/api/collect/monitor/" . $row_info['m_token'] ?></p>
+                                <p id="uri-area" class="pad-5x"><?= "https://api.overlog.io/collect/monitor/" . $row_info['m_token'] ?></p>
                                 <div class="field">
                                     <input id="clipboard-area" type="text" value="" style="position:absolute;top:-9999em">
                                     <div class="ui buttons">

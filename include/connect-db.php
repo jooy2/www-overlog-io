@@ -481,7 +481,7 @@
             
             try {
                 $query = $this->connection->prepare("SELECT * FROM log_monitor WHERE m_id=?
-                                                        ORDER BY l_timestamp DESC LIMIT 100;");
+                                                        ORDER BY l_timestamp DESC LIMIT 500;");
                 $query->execute([$monitor_id]);
                 $query->setFetchMode(PDO::FETCH_ASSOC);
                 
