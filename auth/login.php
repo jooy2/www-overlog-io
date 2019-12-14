@@ -93,9 +93,6 @@
 					</div>
 				</form>
 				<div class="ui message">
-					테스트 계정은 <b>(id) administrator / (pw) test</b> 입니다.
-				</div>
-				<div class="ui message">
 					새로운 사용자이신가요? <a href="register">계정 만들기</a>
 				</div>
 			</div>
